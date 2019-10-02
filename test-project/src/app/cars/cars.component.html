@@ -1,1 +1,22 @@
-<p>cars works!</p>
+<div style="padding: 5em 5em">
+    <div class="card" *ngFor="let car of arrCars">
+
+        <a [routerLink]="['/cars', car.Id]">
+            <div class="container">
+                <p>Rating: {{car.ScoreRating}}</p>
+                <img src="../../assets/Image/Logo.png" alt="car">
+            </div>
+            <div class="container">
+                <h1>{{car.Id}}</h1>
+                <h3>{{car.brand}}</h3>
+                <a>Info: {{car.info}}</a>
+                <h3>price: {{car.price}}</h3>
+                <p>Description</p>
+                <p>{{car.description}}</p>
+
+
+            </div>
+        </a>
+        <button>Buy</button>
+    </div>
+</div>

@@ -4,7 +4,14 @@
         <li><a [routerLink]="['']">Home</a></li>
         <li><a [routerLink]="['/cars']">Cars</a></li>
         <li><a [routerLink]="['/parts']">Parts</a></li>
-        <li class="allignRight"><a [routerLink]="['/basket']">Basket</a></li>
+
+        <li class="dropdown allignRight"><a href="javascript:void(0)">
+                <img class="basket-img"
+                    src="https://cdn3.iconfinder.com/data/icons/glypho-free/64/shopping-purse-512.png"></a>
+            <div class="dropdown-content">
+                <app-basket></app-basket>
+            </div>
+        </li>
         <li class="allignRight"><a [routerLink]="['/login']">Login</a></li>
     </ul>
 

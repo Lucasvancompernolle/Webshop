@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import { basketItem } from '../basket/basket';
+import { ProductServiceComponent } from '../product-service/product-service.component';
+import { ICar } from './car';
+
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BasketComponent } from '../basket/basket.component';
+
 
 @Component({
   selector: 'app-cars',
@@ -11,20 +17,41 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class CarsComponent implements OnInit {
 
-  arrCars: string[];
+  arrCars: ICar[];
+  filteredCars: ICar[];
+  errorMessage: string;
 
-  constructor(private httpService: HttpClient) { }
+  constructor(private httpService: HttpClient,
+    private productService: ProductServiceComponent,
+    private basket: BasketComponent) {
+
+  }
 
   ngOnInit() {
-    this.httpService.get('../assets/dummyData.json').subscribe(
-      data => {
-        this.arrCars = data as string [];	 // FILL THE ARRAY WITH DATA.
-          console.log(this.arrCars[1]);
+
+    this.productService.getCars().subscribe(
+      products => {
+        this.arrCars = products,
+          this.filteredCars = this.arrCars;
       },
-      (err: HttpErrorResponse) => {
-        console.log (err.message);
-      }
+      error => this.errorMessage = <any>error
     );
+
+  }
+
+  AddToBasket(carId: number) {
+
+    this.basket.addCarToBasket(this.productService.findCar(carId),1 )
+    
+  };
+
+
+
+  performFilter(filterBy: string): ICar[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.arrCars.filter((car: ICar) =>
+      car.brand.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
 }
+

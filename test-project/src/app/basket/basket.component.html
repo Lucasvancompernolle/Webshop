@@ -1,1 +1,44 @@
-<p>basket works!</p>
+<div style="padding: 5em">
+    <!-- <div *ngIf="loggedIn; else loggedOut"> -->
+
+        <div *ngIf="basketItems && basketItems.length; else NoItems" class="basket">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th><button class="btnDelete" (click)="deleteSelectedItems()">Delete</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of basketItems;">
+                        <td>{{item.item}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.price * item.quantity | number: "1.1-2"}}</td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" [checked]="item.delete" (change)="item.delete=!item.delete">
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <!-- </div> -->
+        <ng-template #NoItems>
+            <div class="noItems">
+                No items in your basket.
+            </div>
+        </ng-template>
+
+    </div>
+    <ng-template #loggedOut>
+        <div>
+            <a href="login">Login</a>.
+        </div>
+    </ng-template>
+</div>

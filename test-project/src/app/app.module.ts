@@ -11,6 +11,7 @@ import { BasketComponent } from './basket/basket.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CarDetailComponent } from './car-detail/car-detail.component';
+import { ProductServiceComponent } from './product-service/product-service.component';
 
 @NgModule({
   declarations: [
@@ -21,14 +22,15 @@ import { CarDetailComponent } from './car-detail/car-detail.component';
     PartsComponent,
     BasketComponent,
     LoginComponent,
-    CarDetailComponent
+    CarDetailComponent,
+    ProductServiceComponent
   ],
   imports: [
     BrowserModule,
     RouteRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ProductServiceComponent, BasketComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

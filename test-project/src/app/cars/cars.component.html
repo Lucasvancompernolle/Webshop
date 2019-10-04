@@ -3,20 +3,23 @@
 
         <a [routerLink]="['/cars', car.Id]">
             <div class="container">
+                <img src="../../assets/Image/Logo.png" alt="brand">
+                <img id="pictureCar" src="../../assets/Image/car.jpg" alt="car">
                 <p>Rating: {{car.ScoreRating}}</p>
-                <img src="../../assets/Image/Logo.png" alt="car">
             </div>
             <div class="container">
-                <h1>{{car.Id}}</h1>
+              
                 <h3>{{car.brand}}</h3>
-                <a>Info: {{car.info}}</a>
-                <h3>price: {{car.price}}</h3>
-                <p>Description</p>
-                <p>{{car.description}}</p>
-
-
+                <h4>Info:  </h4>
+                <a>{{car.info}}</a>
+                <h4>Description</h4>
+                <p class="description">{{car.description}}</p>
+               
             </div>
         </a>
-        <button>Buy</button>
+        <div class="containerBottom">
+            <h3  id="price">price:     {{car.price}}</h3>
+            <button class="buy" (click)="AddToBasket(car.Id)">Buy</button>
+        </div>
     </div>
 </div>

@@ -1,0 +1,31 @@
+[
+    {
+      "id": 1,
+      "item": "Luke",
+      "quantity": 5,
+      "price": 8.5,
+      "delete": false
+
+    },
+    {
+      "id": 2,
+      "item": "Ishmael",
+      "quantity": 4,
+      "price": 82.6,
+      "delete": false
+    },
+    {
+      "id": 3,
+      "item": "Ignatius",
+      "quantity": 2,
+      "price": 1.52,
+      "delete": false
+    },
+    {
+      "id": 4,
+      "item": "Prescott",
+      "quantity": 10,
+      "price": 25.3,
+      "delete": true
+
+    }]

@@ -10,14 +10,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./car-detail.component.css']
 })
 
-// export class Car{
-//   Id: number;
-//   brand: string;
-//   info: string;
-//   price: number;
-//   description: string;
-//   ScoreRating: number;
-// }
 
 export class CarDetailComponent implements OnInit {
 
@@ -29,6 +21,25 @@ public carId: number;
   let id = parseInt(this.route.snapshot.paramMap.get('id'));
   this.carId = id;
   }
+
+  PutInBasket()
+  {
+    this.httpService.post('../assets/dummyDataBasket.json', {
+      title: 'foo',
+      body: 'bar',
+      userId: this.carId
+    })
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log("Error occured");
+        }
+      );
+  }
+  
+
 
 }
 

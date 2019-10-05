@@ -1,25 +1,25 @@
 <div style="padding: 5em 5em">
     <div class="card" *ngFor="let car of arrCars">
 
-        <a [routerLink]="['/cars', car.Id]">
+        <a [routerLink]="['/cars', car.id]">
             <div class="container">
-                <img src="../../assets/Image/Logo.png" alt="brand">
-                <img id="pictureCar" src="../../assets/Image/car.jpg" alt="car">
-                <p>Rating: {{car.ScoreRating}}</p>
+                <img class="brand" src="../../assets/Image/Logo.png" [alt]="car.brand">
+                <img id="pictureCar" [src]='car.info' [alt]="car.info">
+                <p>Rating: {{car.ratingScore}}</p>
             </div>
-            <div class="container">
+            <div class="container description">
               
                 <h3>{{car.brand}}</h3>
                 <h4>Info:  </h4>
-                <a>{{car.info}}</a>
+                <a>{{car.description}}</a>
                 <h4>Description</h4>
-                <p class="description">{{car.description}}</p>
+                <p>{{car.description}}</p>
                
             </div>
         </a>
         <div class="containerBottom">
             <h3  id="price">price:     {{car.price}}</h3>
-            <button class="buy" (click)="AddToBasket(car.Id)">Buy</button>
+            <button class="buy" (click)="AddToBasket(car.id)">Buy</button>
         </div>
     </div>
 </div>

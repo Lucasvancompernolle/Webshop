@@ -6,5 +6,5 @@ export interface ICar{
     info: string;
     price: number;
     description: string;
-    scoreRating: number;
+    ratingScore: number;
 }

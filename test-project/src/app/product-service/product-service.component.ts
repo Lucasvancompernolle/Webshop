@@ -13,7 +13,7 @@ export class ProductServiceComponent implements OnInit {
 
   private cars: ICar[];
   private parts: any[];
-  private getCarsUrl = '../assets/dummyData.json';
+  private getCarsUrl = 'https://my.api.mockaroo.com/carss?key=1d563c20';
 
   constructor(private httpService: HttpClient) {
    this.getCars().subscribe(
@@ -29,7 +29,6 @@ export class ProductServiceComponent implements OnInit {
     }).pipe(
       tap(cars => console.log("all " + JSON.stringify(cars))),
       catchError(this.handleError));
-
   }
 
   findCar(carId: number): ICar  {

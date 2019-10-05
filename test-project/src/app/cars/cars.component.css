@@ -11,6 +11,7 @@
     max-width: 40%;
     max-height: 60%;
     position: relative;
+    min-width: 175px;
 
 }
 
@@ -21,6 +22,11 @@
 .container {
     padding: 0;
     display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75ch;
+    max-height: 40%;
     
 }
 .container p{
@@ -39,15 +45,19 @@
     
 }
 
-/* .description{
-    
-} */
+.description{
+  height: 140px;  
+}
 
 img {
     
-    max-width: 20%;
+    max-width: 50%;
     height: auto;
 }
+
+.brand{
+    max-width:20%;
+    }
 
 .buy {
     float: right;
@@ -62,8 +72,7 @@ img {
     
     font-size: 100%;
     margin: 5px;
-    
-    
+
 }
 
 .buy:hover {
@@ -72,10 +81,10 @@ img {
 
 #pictureCar{
     float: right;
-    margin: 10px;
+    margin: 10px 10px 0 0;
     border-radius: 8px;
-    max-width: 50%;
-   
+    height: auto;
+    white-space: nowrap;
 }
 
 #price{
@@ -85,17 +94,19 @@ img {
 
 h3{
     color: dodgerblue;
-    font-family: fantasy;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-decoration-style: none;
-    margin-right: 0;
+    margin: 5px 0 5px 0;
 }
 
 h4{
-    margin-bottom: 0;
+    margin: 5px 0 5px 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 a{
     text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 @media screen and (max-width: 394px) {

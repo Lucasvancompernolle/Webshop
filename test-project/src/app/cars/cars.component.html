@@ -4,7 +4,7 @@
         <a [routerLink]="['/cars', car.id]">
             <div class="container">
                 <img class="brand" src="../../assets/Image/Logo.png" [alt]="car.brand">
-                <img id="pictureCar" [src]='car.info' [alt]="car.info">
+                <img id="pictureCar" [src]='' [alt]="car.info">
                 <p>Rating: {{car.ratingScore}}</p>
             </div>
             <div class="container description">

@@ -12,6 +12,8 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CarDetailComponent } from './car-detail/car-detail.component';
 import { ProductServiceComponent } from './product-service/product-service.component';
+import { BasketService } from './basket-service/basket.service';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { ProductServiceComponent } from './product-service/product-service.compo
     RouteRoutingModule,
     HttpClientModule
   ],
-  providers: [ProductServiceComponent, BasketComponent],
+  providers: [ProductServiceComponent, BasketComponent, BasketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

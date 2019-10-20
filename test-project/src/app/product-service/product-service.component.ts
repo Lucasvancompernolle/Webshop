@@ -13,7 +13,8 @@ export class ProductServiceComponent implements OnInit {
 
   private cars: ICar[];
   private parts: any[];
-  private getCarsUrl = 'https://my.api.mockaroo.com/carss?key=1d563c20';
+  // private getCarsUrl = 'https://my.api.mockaroo.com/cars?key=1d563c20';
+  private getCarsUrl = '../assets/dummyData.json';
 
   constructor(private httpService: HttpClient) {
    this.getCars().subscribe(
@@ -33,13 +34,7 @@ export class ProductServiceComponent implements OnInit {
 
   findCar(carId: number): ICar  {
    
-    for (var i = this.cars.length - 1; i >= 0; i--) {
-      if (this.cars[i].id == carId) {
-        console.log(this.cars[i].id + " found");
-        return this.cars[i];
-      }
-    }
-    return this.cars.find(p => p.id === carId);
+    return this.cars[carId];
   }
 
 

@@ -1,9 +1,11 @@
-import { ICar} from '../cars/car';
 
 export class basketItem {
-    public id: number;
-    item: string;
-    quantity: number;
-    price: number;
-    delete: boolean;
-  }
+  id: number
+  prodId: number
+  productBrand: string
+  qty: number
+  price: number
+  closed: boolean
+  custNumber: number
+  delete: boolean
+}

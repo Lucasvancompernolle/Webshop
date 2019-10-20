@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { basketItem } from './basket';
-import { ICar} from '../cars/car';
+import { ICar } from '../cars/car';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
+import { BasketService } from '../basket-service/basket.service';
+
 
 @Component({
   selector: 'app-basket',
@@ -10,41 +14,53 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class BasketComponent implements OnInit {
 
-   basketItems: basketItem[];
+  basketItems: basketItem[] = [];
+  errorMessage;
 
-  constructor(private httpService: HttpClient) { }
-
-  ngOnInit() {
-
-    this.httpService.get('../assets/dummyDataBasket.json').subscribe(
-      data => {
-        this.basketItems = data as basketItem[];	
-        console.log(this.basketItems[1]);
-      },
-      (err: HttpErrorResponse) => {
-        console.log(err.message);
-      }
-    );
+  constructor(private httpService: HttpClient, private basketService: BasketService) {
 
   }
 
-  addCarToBasket(car:ICar, qty: number)
-  {
+  ngOnInit() {
+    this.getData();
+
+   
+  }
+
+  getData() {
+     this.basketService.getBasketData().subscribe(
+      data => {this.basketItems = data,
+      console.log("data OK")
+      }
+    );
+  }
+
+  addCarToBasket(car: ICar, qty: number) {
     let item = new basketItem();
-    item.id = car.id
-    item.item = car.brand
-    item.price = car.price
-    item.quantity = qty
+    item.prodId = car.id;
+    item.custNumber = 16 // need to pass the real cust num
+    item.productBrand = car.brand;
+    item.price = car.price;
+    item.qty = qty;
     item.delete = false;
-    this.basketItems.push(item);
+    
+    
+    this.basketService.pushBasketData(item).subscribe();
+    
+    //   this.basketItems.push(item);
+    // this.getData();
+
+    
+
   }
 
   deleteSelectedItems() {
 
     for (var i = this.basketItems.length - 1; i >= 0; i--) {
       if (this.basketItems[i].delete) {
-        console.log(this.basketItems[i].item + " deleted");
-        this.basketItems.splice(this.basketItems.indexOf(this.basketItems[i]), 1);
+        console.log(this.basketItems[i].productBrand + " deleted");
+        this.basketService.deleteItem(this.basketItems[i].id).subscribe();
+        this.basketItems.splice(i,1)
       }
     }
   }

@@ -1,7 +1,7 @@
 <div style="padding: 5em">
     <!-- <div *ngIf="loggedIn; else loggedOut"> -->
 
-        <div *ngIf="basketItems && basketItems.length; else NoItems" class="basket">
+        <div  *ngIf="basketItems && basketItems.length; else NoItems" class="basket">
             <table>
                 <thead>
                     <tr>
@@ -13,11 +13,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of basketItems;">
-                        <td>{{item.item}}</td>
-                        <td>{{item.quantity}}</td>
+                    <tr *ngFor="let item of basketItems">
+                        <td>{{item.productBrand}}</td>
+                        <td>{{item.qty}}</td>
                         <td>{{item.price}}</td>
-                        <td>{{item.price * item.quantity | number: "1.1-2"}}</td>
+                        <td>{{item.price * item.qty | number: "1.1-2"}}</td>
                         <td>
                             <label class="switch">
                                 <input type="checkbox" [checked]="item.delete" (change)="item.delete=!item.delete">

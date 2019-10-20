@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { basketItem } from '../basket/basket';
 import { ProductServiceComponent } from '../product-service/product-service.component';
@@ -6,24 +6,27 @@ import { ICar } from './car';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BasketComponent } from '../basket/basket.component';
+import { BasketService } from '../basket-service/basket.service';
+
 
 
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
-  styleUrls: ['./cars.component.css']
+  styleUrls: ['./cars.component.css'],
+  providers: [BasketService]
 })
 
-
 export class CarsComponent implements OnInit {
-
+  
   arrCars: ICar[];
   filteredCars: ICar[];
   errorMessage: string;
 
+
   constructor(private httpService: HttpClient,
-    private productService: ProductServiceComponent,
-    private basket: BasketComponent) {
+    private productService: ProductServiceComponent, 
+    private basketService: BasketService) {
 
   }
 
@@ -41,11 +44,9 @@ export class CarsComponent implements OnInit {
 
   AddToBasket(carId: number) {
 
-    this.basket.addCarToBasket(this.productService.findCar(carId),1 )
+    this.basketService.addCarToBasket(this.productService.findCar(carId),1 );
     
   };
-
-
 
   performFilter(filterBy: string): ICar[] {
     filterBy = filterBy.toLocaleLowerCase();

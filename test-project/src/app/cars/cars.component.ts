@@ -26,7 +26,8 @@ export class CarsComponent implements OnInit {
 
   constructor(private httpService: HttpClient,
     private productService: ProductServiceComponent, 
-    private basketService: BasketService) {
+    private basketService: BasketService,
+    public test : BasketComponent) {
 
   }
 
@@ -46,6 +47,7 @@ export class CarsComponent implements OnInit {
 
     this.basketService.addCarToBasket(this.productService.findCar(carId),1 );
     
+    this.test.test();
   };
 
   performFilter(filterBy: string): ICar[] {

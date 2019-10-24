@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { basketItem } from '../basket/basket';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { ICar } from '../cars/car';
 
 @Injectable({
@@ -10,8 +10,11 @@ import { ICar } from '../cars/car';
 })
 export class BasketService {
 
-  basketItems: Observable<basketItem[]>;
-  
+  updateLists: Subject<basketItem[]> = new Subject();
+  basketItems = <Observable<basketItem[]>>this.updateLists;
+
+  _proposals: basketItem[] = [];
+
   constructor(private httpService: HttpClient) { }
 
   httpOptions = {
@@ -23,21 +26,53 @@ export class BasketService {
     })
   };
 
-  getBasketData(): Observable<basketItem[]> {
-    return this.httpService.get<basketItem[]>("https://localhost:5001/api/BasketItem/16", {
+  getBasketData() {
+    this.basketItems = this.httpService.get<basketItem[]>("https://localhost:5001/api/BasketItem/16", {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }).pipe(
-      tap(cars => console.log("all " + JSON.stringify(cars))),
+      tap(items => console.log("all " + JSON.stringify(items))),
       catchError(this.handleError));
 
+    this.basketItems.subscribe(data => {
+
+      this._proposals = <basketItem[]>data; // save your data
+      this.updateLists.next(this._proposals); // emit your data
+    })
+
   }
 
-  deleteItem(id: number) : Observable<basketItem[]> { 
-    return this.httpService.delete<basketItem[]>("https://localhost:5001/api/BasketItem/" + id);
+  next(){
+    // scan((acc,value) => acc.concat(value))
+    // .subscribe((data) => {
+    //   console.log(data);
+    // this.basketItems. = this.basketItems;
+    // this.basketItems.subscribe(data => {
+
+    //   this._proposals = <basketItem[]>data; // save your data
+    //   this.updateLists.next(this._proposals); // emit your data
+    // })
   }
 
-  addCarToBasket(car: ICar, qty: number)
-  {
+  test(num: number) {
+
+    for (const item of this._proposals) {
+      if (item.id == num)
+        item.delete = !item.delete;
+    };
+
+    this.updateLists.next(Object.assign({}, this._proposals));
+  }
+
+  deleteItem() {
+
+    for (const iterator of this._proposals) {
+      if (iterator.delete == true)
+        this.httpService.delete<basketItem[]>("https://localhost:5001/api/BasketItem/" + iterator.id).subscribe();
+    };
+
+  }
+
+  addCarToBasket(car: ICar, qty: number) {
     let item = new basketItem();
     item.prodId = car.id;
     item.custNumber = 16 // need to pass the real cust num
@@ -45,20 +80,28 @@ export class BasketService {
     item.price = car.price;
     item.qty = qty;
     item.delete = false;
-    
-    
-    this.pushBasketData(item).subscribe();
-    
+
+
+    this.pushBasketData(item);
+
   }
 
-  pushBasketData(item: basketItem): Observable<basketItem> {
-
+  pushBasketData(item: basketItem) {
 
     console.log("new item: " + JSON.stringify(item))
-    return this.httpService.post<basketItem>("https://localhost:5001/api/basketitem", "[" + JSON.stringify(item) + "]",
+    this.basketItems = this.httpService.post<basketItem[]>("https://localhost:5001/api/basketitem", "[" + JSON.stringify(item) + "]",
       this.httpOptions)
       .pipe(tap(item => console.log("all " + JSON.stringify(item))),
         catchError(this.handleError));
+
+        this.basketItems.pipe(map(usersList => {
+          usersList.push(item);
+          return usersList;
+        })).subscribe();
+    // this.basketItems.subscribe();
+    // this._proposals.push(item);
+    // this.updateLists.next(this._proposals);
+
 
   }
 

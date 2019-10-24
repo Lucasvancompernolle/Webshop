@@ -1,7 +1,7 @@
 <div style="padding: 5em">
     <!-- <div *ngIf="loggedIn; else loggedOut"> -->
    
-        <div *ngIf="(this.basketService.basketItems | async)?.length; else NoItems" class="basket">
+        <div *ngIf="(this.basketService.basketItems | async).length; else NoItems" class="basket">
             <table>
                 <thead>
                     <tr>
@@ -20,7 +20,7 @@
                         <td>{{item.price * item.qty | number: "1.1-2"}}</td>
                         <td>
                             <label class="switch">
-                                <input type="checkbox" [checked]="item.closed" (change)="basketService.test(item.id)">
+                                <input type="checkbox" [checked]="item.closed" (change)="basketService.CandidateForDeletion(item.id)">
                                 <span class="slider round"></span>
                             </label>
                         </td>

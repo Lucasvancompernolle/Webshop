@@ -46,8 +46,7 @@ export class CarsComponent implements OnInit {
   AddToBasket(carId: number) {
 
     this.basketService.addCarToBasket(this.productService.findCar(carId),1 );
-    
-    this.test.test();
+    setTimeout(() => this.test.ngOnInit(),200);
   };
 
   performFilter(filterBy: string): ICar[] {

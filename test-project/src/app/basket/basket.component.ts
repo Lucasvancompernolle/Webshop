@@ -14,46 +14,19 @@ import { BasketService } from '../basket-service/basket.service';
 })
 export class BasketComponent implements OnInit {
 
-  basketItems: basketItem[] = [];
-  errorMessage;
 
-  constructor(private httpService: HttpClient, private basketService: BasketService) {
+  constructor( private basketService: BasketService) {
 
   }
 
   ngOnInit() {
     this.basketService.getBasketData();
-    this.basketService.basketItems.subscribe(data => this.basketItems = data);
-    
-  }
-
-  // getData() {
-  //    this.basketService.getBasketData().subscribe(
-  //     data => {this.basketItems = data,
-  //     console.log("data OK")
-  //     }
-  //   );
-  // }
-
-  test() {
-    this.basketService.next();
   }
 
   deleteSelectedItems() {
 
-
-    // this.basketService._proposals = this.basketService._proposals.filter(a => {
-    //   a.delete == false)
-    // ; // or whatever
     this.basketService.deleteItem();
-    this.ngOnInit();
-    // for (var i = this.basketItems.length - 1; i >= 0; i--) {
-    //   if (this.basketItems[i].delete) {
-    //     console.log(this.basketItems[i].productBrand + " deleted");
-    //     this.basketService.deleteItem(this.basketItems[i].id).subscribe();
-    //     this.basketItems.splice(i,1)
-    //   }
-    // }
+    setTimeout(() => this.ngOnInit(),100);
   }
 
 }

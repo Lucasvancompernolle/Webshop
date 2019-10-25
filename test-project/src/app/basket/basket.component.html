@@ -1,7 +1,7 @@
 <div style="padding: 5em">
     <!-- <div *ngIf="loggedIn; else loggedOut"> -->
    
-        <div *ngIf="(this.basketService.basketItems | async).length; else NoItems" class="basket">
+        <div *ngIf="(this.basketService.basketItems | async)?.length; else NoItems" class="basket">
             <table>
                 <thead>
                     <tr>

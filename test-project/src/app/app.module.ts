@@ -2,37 +2,34 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { CarsComponent } from './cars/cars.component';
+import { ProductsComponent } from './products/products.component';
 import { HomeComponent } from './home/home.component';
 import { RouteRoutingModule } from './route/route-routing.module';
 import { NavigationComponent } from './navigation/navigation.component';
-import { PartsComponent } from './parts/parts.component';
 import { BasketComponent } from './basket/basket.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
-import { CarDetailComponent } from './car-detail/car-detail.component';
-import { ProductServiceComponent } from './product-service/product-service.component';
 import { BasketService } from './basket-service/basket.service';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductService } from './product-service/product.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CarsComponent,
     HomeComponent,
     NavigationComponent,
-    PartsComponent,
     BasketComponent,
     LoginComponent,
-    CarDetailComponent,
-    ProductServiceComponent
+    ProductsComponent,
+    ProductDetailComponent, 
   ],
   imports: [
     BrowserModule,
     RouteRoutingModule,
     HttpClientModule
   ],
-  providers: [ProductServiceComponent, BasketComponent, BasketService],
+  providers: [ProductService, BasketComponent, BasketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

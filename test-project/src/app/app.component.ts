@@ -8,7 +8,7 @@ import { RouteRoutingModule} from './route/route-routing.module'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'test-project';
+  title = 'Welcome to my shop';
   
   windowScrolled: boolean;
   constructor(@Inject(DOCUMENT) private document: Document) {}

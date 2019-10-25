@@ -3,7 +3,7 @@ import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError, Subject } from 'rxjs';
 import { basketItem } from '../basket/basket';
 import { tap, catchError, map, subscribeOn } from 'rxjs/operators';
-import { ICar } from '../cars/car';
+import { Product } from '../product-service/product';
 
 @Injectable({
   providedIn: 'root'
@@ -64,12 +64,13 @@ export class BasketService {
     
   }
 
-  addCarToBasket(car: ICar, qty: number) {
+  addCarToBasket(product: Product, qty: number) {
+
     let item = new basketItem();
-    item.prodId = car.id;
+    item.prodId = product.id;
     item.custNumber = 16 // need to pass the real cust num
-    item.productBrand = car.brand;
-    item.price = car.price;
+    item.productBrand = product.brand;
+    item.price = product.price;
     item.qty = qty;
     item.delete = false;
 

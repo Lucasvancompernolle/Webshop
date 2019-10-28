@@ -28,12 +28,17 @@ export class ProductService {
         this._products = data ; // save your data
         console.log("all Loaded products  = " + JSON.stringify(this._products))
         this.updateLists.next(this._products); // emit your data
-      })
+      });
   }
 
   findProduct(productId: number): Product {
 
-    return this._products[productId];
+   for (const iterator of this._products) {
+     if(iterator.id == productId)
+     return iterator;
+     
+   }
+
   }
 
   private handleError(err: HttpErrorResponse) {

@@ -1,19 +1,20 @@
+
 <div style="padding: 5em 5em">
-    <div class="card" *ngFor="let item of this.basketService.productsData | async">
+    <div class="card" *ngFor="let item of this.productService.productsData | async">
 
         <a [routerLink]="['/products', item.id]">
             <div class="container">
                 <img class="brand" src="../../assets/Image/Logo.png" [alt]="item.brand">
-                <img id="pictureCar" [src]='item.PicturePath' [alt]="item.PicturePath">
+                <img id="pictureCar" [src]='item.picturePath' [alt]="item.picturePath">
                 <p>Rating: {{item.ratingScore}}</p>
             </div>
             <div class="container description">
-              
+                 <h3>{{item.id}}</h3>
                 <h3>{{item.brand}}</h3>
                 <h4>Info:  </h4>
-                <a>{{item.description}}</a>
+                <a>{{item.sku}}</a>
                 <h4>Description</h4>
-                <p>{{item.description}}</p>
+                <p>{{item.name}}</p>
                
             </div>
         </a>

@@ -14,9 +14,7 @@ import { ProductService } from '../product-service/product.service';
 
 export class ProductsComponent implements OnInit {
   
-  products: Product[];
-  filteredProducts: Product[];
-  errorMessage: string;
+  
 
 
   constructor(private productService: ProductService, 
@@ -37,11 +35,11 @@ export class ProductsComponent implements OnInit {
     setTimeout(() => this.basket.ngOnInit(),100);
   };
 
-  performFilter(filterBy: string): Product[] {
-    filterBy = filterBy.toLocaleLowerCase();
-    return this.products.filter((product: Product) =>
-    product.brand.toLocaleLowerCase().indexOf(filterBy) !== -1);
-  }
+  // performFilter(filterBy: string): Product[] {
+  //   filterBy = filterBy.toLocaleLowerCase();
+  //   return this.products.filter((product: Product) =>
+  //   product.brand.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  // }
 
 }
 

@@ -3,7 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyAvUyoyaSOnHokuJtDmK4qA28mAzQ1Y8wc",
+    authDomain: "webshop-e29f6.firebaseapp.com",
+    databaseURL: "https://webshop-e29f6.firebaseio.com",
+    projectId: "webshop-e29f6",
+    storageBucket: "webshop-e29f6.appspot.com",
+    messagingSenderId: "602967946617",
+    appId: "1:602967946617:web:93327f08232ab988a46ba8",
+    measurementId: "G-HSZYHNS1GZ"
+  }
+
+
+
 };
 
 /*
@@ -14,3 +27,13 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+const firebaseConfig = {
+  apiKey: "AIzaSyAvUyoyaSOnHokuJtDmK4qA28mAzQ1Y8wc",
+  authDomain: "webshop-e29f6.firebaseapp.com",
+  databaseURL: "https://webshop-e29f6.firebaseio.com",
+  projectId: "webshop-e29f6",
+  storageBucket: "webshop-e29f6.appspot.com",
+  messagingSenderId: "602967946617",
+  appId: "1:602967946617:web:93327f08232ab988a46ba8",
+  measurementId: "G-HSZYHNS1GZ"
+};

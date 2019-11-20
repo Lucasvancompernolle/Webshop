@@ -20,7 +20,7 @@
         </a>
         <div class="containerBottom">
             <h3  id="price">price:     {{item.price}}</h3>
-            <button class="buy" (click)="AddToBasket(item.id)">Buy</button>
+            <button *ngIf="this.auth.user | async;" class="buy" (click)="AddToBasket(item.id)">Buy</button>
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div style="padding: 5em">
-    <!-- <div *ngIf="loggedIn; else loggedOut"> -->
+    <div *ngIf="this.auth.user | async; else loggedOut">
    
         <div *ngIf="(this.basketService.basketItems | async)?.length; else NoItems" class="basket">
             <table>
@@ -30,7 +30,7 @@
                 </tbody>
             </table>
 
-        <!-- </div> -->
+        </div>
         <ng-template #NoItems>
             <div class="noItems">
                 No items in your basket.
@@ -40,7 +40,7 @@
     </div>
     <ng-template #loggedOut>
         <div>
-            <a href="login">Login</a>.
+            <a [routerLink]="['/login']">Login</a>.
         </div>
     </ng-template>
 </div>

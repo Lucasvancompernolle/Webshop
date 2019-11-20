@@ -5,14 +5,18 @@ import { BasketComponent } from '../basket/basket.component';
 import { LoginComponent } from '../login/login.component';
 import { ProductsComponent } from '../products/products.component';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import { AuthGuard } from '../authentication/auth.guard';
+import { RegisterComponent } from '../register/register.component';
 
 
 const routes: Routes = [
   {path: '', component: HomeComponent },
-  {path: 'products', component: ProductsComponent },
   {path: 'home', component: HomeComponent },
   {path: 'login', component: LoginComponent },
-  {path: 'products/:id', component: ProductDetailComponent}
+  {path: 'register', component: RegisterComponent },
+  {path: 'products', component: ProductsComponent, canActivate: [AuthGuard]},
+  {path: 'products/:id', component: ProductDetailComponent, canActivate: [AuthGuard]},
+  {path: '**', component: HomeComponent}
 ];
 
 @NgModule({

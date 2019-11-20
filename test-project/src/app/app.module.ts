@@ -16,6 +16,11 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { RegisterComponent } from './register/register.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule, MatInputModule, MatProgressBarModule, MatCardModule , MatButtonModule} from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -26,15 +31,25 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     LoginComponent,
     ProductsComponent,
     ProductDetailComponent,
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule // imports firebase/storage only needed for storage features 
+    RegisterComponent
+
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouteRoutingModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase, "Webshop")
+    MatFormFieldModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatInputModule,
+    MatCardModule,
+    MatProgressBarModule,
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    AngularFireStorageModule, // imports firebase/storage only needed for storage features 
+    AngularFireModule.initializeApp(environment.firebase, "Webshop"), BrowserAnimationsModule
   ],
   providers: [ProductService, BasketComponent, BasketService],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../authentication/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(public auth: AuthService) {
+    
+   }
 
   ngOnInit() {
+  }
+
+  checkIfUserIsCustomer(uid: string) {
+   return this.auth.checkIfUserIsCustomer(uid);
+
   }
 
 }

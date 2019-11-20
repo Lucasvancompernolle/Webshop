@@ -2,6 +2,7 @@ import { Component, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { RouteRoutingModule } from './route/route-routing.module'
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -10,10 +11,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AppComponent {
     title = 'Welcome to my shop';
+    items: Observable<any[]>;
 
     windowScrolled: boolean;
     constructor(@Inject(DOCUMENT) private document: Document,
-        db: AngularFirestore) { }
+        db: AngularFirestore) {
+        this.items = db.collection('items').valueChanges();
+    }
 
     @HostListener("window:scroll", [])
     onWindowScroll() {

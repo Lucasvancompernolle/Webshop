@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BasketComponent } from '../basket/basket.component';
 import { BasketService } from '../basket-service/basket.service';
 import { ProductService } from '../product-service/product.service';
+import { AuthService } from '../authentication/auth.service';
 
 @Component({
   selector: 'app-products',
@@ -14,12 +15,10 @@ import { ProductService } from '../product-service/product.service';
 
 export class ProductsComponent implements OnInit {
   
-  
-
-
   constructor(private productService: ProductService, 
     private basketService: BasketService,
-    private basket : BasketComponent) {
+    private basket : BasketComponent,
+    private auth: AuthService) {
 
   }
 

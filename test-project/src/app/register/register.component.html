@@ -1,0 +1,112 @@
+<div>
+    <div class="example-form">
+        
+        <mat-vertical-stepper [linear]="true" #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Fill out your name</ng-template>
+                    <table class="example-full-width" cellspacing="0">
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" [(ngModel)]='customer.firstname' matInput
+                                        placeholder="First name" formControlName="firstCtrl" required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text"  [(ngModel)]="customer.lastName" matInput placeholder="Last Name" 
+                                    formControlName="firstCtrl" required>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Fill out your address</ng-template>
+                    <table class="example-full-width" cellspacing="0">
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input [(ngModel)]="customer.street" matInput placeholder="Street" formControlName="secondCtrl" required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="HouseNumber">
+                                    <input [(ngModel)]="customer.houseNumber" matInput placeholder="Nr" formControlName="secondCtrl" required>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input [(ngModel)]="customer.postalCode" matInput #postalCode maxlength="5"
+                                        placeholder="Postal code" formControlName="secondCtrl" required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input [(ngModel)]="customer.city" matInput placeholder="City" formControlName="secondCtrl" required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input [(ngModel)]="customer.country" matInput placeholder="Country" formControlName="secondCtrl" required>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="thirdFormGroup">
+                <form [formGroup]="thirdFormGroup">
+                    <ng-template matStepLabel>Fill out contact data</ng-template>
+                    <table class="example-full-width" cellspacing="0" >
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" [(ngModel)]='customer.phone' matInput
+                                        placeholder="Mobile phone" formControlName="thirdCtrl" required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" [(ngModel)]="customer.email" matInput placeholder="Email"
+                                    formControlName="thirdCtrl" required>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                You are now done.
+                <div>
+                    <button mat-raised-button class="btnAddCustomer" type="submit" style="float: left;"
+                        [disabled]="isUnchanged" (click)="CreateCustomer()" >Register</button>
+                    <button mat-raised-button class="btnAddCustomer" type="submit" style="float: right;" color="warn"
+                        [disabled]="isUnchanged" [routerLink]="['/home']">Cancel</button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+
+</div>
+
+
+
+

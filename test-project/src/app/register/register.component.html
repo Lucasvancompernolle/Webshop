@@ -1,6 +1,6 @@
 <div>
     <div class="example-form">
-        
+
         <mat-vertical-stepper [linear]="true" #stepper>
             <mat-step [stepControl]="firstFormGroup">
                 <form [formGroup]="firstFormGroup">
@@ -9,14 +9,14 @@
                         <tr>
                             <td>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" [(ngModel)]='customer.firstname' matInput
-                                        placeholder="First name" formControlName="firstCtrl" required>
+                                    <input type="text" [(ngModel)]='customer.firstName' matInput
+                                        placeholder="First name" formControlName="firstCtrl1" required>
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text"  [(ngModel)]="customer.lastName" matInput placeholder="Last Name" 
-                                    formControlName="firstCtrl" required>
+                                    <input type="text" [(ngModel)]="customer.lastName" matInput placeholder="Last Name"
+                                        formControlName="firstCtrl2" required>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -33,12 +33,14 @@
                         <tr>
                             <td>
                                 <mat-form-field class="example-full-width">
-                                    <input [(ngModel)]="customer.street" matInput placeholder="Street" formControlName="secondCtrl" required>
+                                    <input [(ngModel)]="customer.street" matInput placeholder="Street"
+                                        formControlName="secondCtrl1" required>
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field class="HouseNumber">
-                                    <input [(ngModel)]="customer.houseNumber" matInput placeholder="Nr" formControlName="secondCtrl" required>
+                                    <input [(ngModel)]="customer.houseNumber" matInput placeholder="Nr"
+                                        formControlName="secondCtrl2" required>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -46,17 +48,19 @@
                             <td>
                                 <mat-form-field class="example-full-width">
                                     <input [(ngModel)]="customer.postalCode" matInput #postalCode maxlength="5"
-                                        placeholder="Postal code" formControlName="secondCtrl" required>
+                                        placeholder="Postal code" formControlName="secondCtrl3" required>
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field class="example-full-width">
-                                    <input [(ngModel)]="customer.city" matInput placeholder="City" formControlName="secondCtrl" required>
+                                    <input [(ngModel)]="customer.city" matInput placeholder="City"
+                                        formControlName="secondCtrl4" required>
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field class="example-full-width">
-                                    <input [(ngModel)]="customer.country" matInput placeholder="Country" formControlName="secondCtrl" required>
+                                    <input [(ngModel)]="customer.country" matInput placeholder="Country"
+                                        formControlName="secondCtrl5" required>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -70,25 +74,74 @@
             <mat-step [stepControl]="thirdFormGroup">
                 <form [formGroup]="thirdFormGroup">
                     <ng-template matStepLabel>Fill out contact data</ng-template>
-                    <table class="example-full-width" cellspacing="0" >
+                    <table class="example-full-width" cellspacing="0">
                         <tr>
                             <td>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" [(ngModel)]='customer.phone' matInput
-                                        placeholder="Mobile phone" formControlName="thirdCtrl" required>
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-form-field class="example-full-width">
-                                    <input type="text" [(ngModel)]="customer.email" matInput placeholder="Email"
-                                    formControlName="thirdCtrl" required>
+                                    <span matPrefix>+32 &nbsp;</span>
+                                    <input type="tel" [(ngModel)]='customer.phone' matInput placeholder="Mobile phone"
+                                        formControlName="thirdCtrl1" required>
+                                    <mat-icon matSuffix>mode_edit</mat-icon>
                                 </mat-form-field>
                             </td>
                         </tr>
                     </table>
                     <div>
-                            <button mat-button matStepperPrevious>Back</button>
-                            <button mat-button matStepperNext>Next</button>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="fourthFormGroup">
+                <form [formGroup]="fourthFormGroup">
+                    <ng-template matStepLabel>Enter email and choose a password</ng-template>
+                    <table class="example-full-width" cellspacing="0">
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input [(ngModel)]="customer.email" matInput placeholder="Enter e-mail address" formControlName="fourthCtrl1"
+                                        required>
+                                    <mat-error
+                                        *ngIf="fourthFormGroup.hasError('email') && !fourthFormGroup.hasError('required')">
+                                        Please enter a valid e-mail
+                                    </mat-error>
+                                    <mat-error *ngIf="fourthFormGroup.hasError('required')">
+                                        E-mail is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <form [formGroup]="fourthFormGroupPswrd">
+                    <table>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input type="password" matInput placeholder="New password"
+                                        formControlName="fourthCtrl2" required>
+                                    <mat-error *ngIf="fourthFormGroupPswrd.hasError('required', 'fourthCtrl2')">
+                                        Please enter your new password
+                                    </mat-error>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <input [(ngModel)]="custPswrd" type="password" matInput placeholder="Confirm password"
+                                        formControlName="fourthCtrl3" [errorStateMatcher]="matcher">
+                                    <mat-error *ngIf="fourthFormGroupPswrd.hasError('notSame')">
+                                        Passwords do not match
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
                     </div>
                 </form>
             </mat-step>
@@ -96,17 +149,14 @@
                 <ng-template matStepLabel>Done</ng-template>
                 You are now done.
                 <div>
-                    <button mat-raised-button class="btnAddCustomer" type="submit" style="float: left;"
-                        [disabled]="isUnchanged" (click)="CreateCustomer()" >Register</button>
-                    <button mat-raised-button class="btnAddCustomer" type="submit" style="float: right;" color="warn"
-                        [disabled]="isUnchanged" [routerLink]="['/home']">Cancel</button>
+                    <button mat-raised-button class="btnAddCustomer" type="submit" [disabled]="isUnchanged"
+                        (click)="CreateCustomer()">Register</button>
+
+                    <button mat-raised-button class="btnAddCustomer" type="submit" color="warn" [disabled]="isUnchanged"
+                        [routerLink]="['/home']">Cancel</button>
                 </div>
             </mat-step>
         </mat-vertical-stepper>
     </div>
 
 </div>
-
-
-
-

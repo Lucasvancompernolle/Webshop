@@ -18,9 +18,9 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule, MatProgressBarModule, MatCardModule , MatButtonModule} from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatProgressBarModule, MatCardModule , MatButtonModule, MatIconModule} from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatButtonModule,
     MatInputModule,
     MatCardModule,
+    MatIconModule,
     MatProgressBarModule,
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,

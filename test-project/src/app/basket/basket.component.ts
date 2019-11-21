@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../basket-service/basket.service';
 import { AuthService } from '../authentication/auth.service';
+import { RegisterService } from '../register-service/register.service';
 
 @Component({
   selector: 'app-basket',
@@ -10,12 +11,12 @@ import { AuthService } from '../authentication/auth.service';
 export class BasketComponent implements OnInit {
 
 
-  constructor( private basketService: BasketService, private auth: AuthService) {
-
+  constructor( private basketService: BasketService, private auth: AuthService, private custService: RegisterService) {
+    
   }
 
   ngOnInit() {
-    this.basketService.getBasketData();
+    this.basketService.getBasketData("16");
   }
 
   deleteSelectedItems() {

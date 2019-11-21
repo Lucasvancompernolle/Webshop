@@ -2,24 +2,29 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { auth } from 'firebase/app'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { IUser } from './user';
-import { Observable, of } from 'rxjs';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { UserData, User } from './user';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { Customer } from './Customer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FirebaseAuth, FirebaseDatabase, FirebaseAppConfig, FirebaseStorage } from '@angular/fire';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user: Observable<IUser>;
+
+  user: Observable<User>;
   customer: Observable<Customer>;
+  userData: User;
 
   UserLoggedIn;
 
-  constructor(private afAuth: AngularFireAuth,
+  constructor(public afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
     private httpService: HttpClient) {
@@ -27,55 +32,88 @@ export class AuthService {
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
+
         if (user) {
-          return this.afs.doc<IUser>(`users/${user.uid}`).valueChanges()
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
         } else {
           return of(null)
         }
       })
     )
+
   }
+
+  userDetails() {
+    return this.afAuth.auth.currentUser;
+  }
+
+  createAccount(userData: UserData) {
+
+    return this.afAuth.auth
+      .createUserWithEmailAndPassword(userData.email, userData.pswrd);
+
+  }
+
+  signInRegular(userdata: UserData) {
+
+    return this.afAuth.auth
+      .signInWithEmailAndPassword(userdata.email, userdata.pswrd).then(
+        res => {
+          const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${userdata.uid}`);
+          console.log(userdata);
+          userRef.set(userdata, { merge: true });
+
+        });
+  }
+
+  //   async sendEmailVerification() {
+  //     await this.afAuth.auth.currentUser.sendEmailVerification()
+  //     this.router.navigate(['admin/verify-email']);
+  // }
+
+  // async sendPasswordResetEmail(passwordResetEmail: string) {
+  //   return await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+  // }
 
   googleLogin() {
     const provider = new auth.GoogleAuthProvider()
     return this.oAuthLogin(provider);
+
   }
 
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user)
+        const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
+
+        const data: UserData = {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          pswrd: "",
+          admin: false,
+          name: credential.user.displayName,
+          displayName: credential.user.displayName,
+        }
+
+        console.log(data);
+
+        userRef.set(data, { merge: true });
       })
-  }
-  private updateUserData(user) {
-    // Sets user data to firestore on login
-
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-
-    const data: IUser = {
-      uid: user.uid,
-      email: user.email,
-      name: user.displayName
-    }
-
-    
-
-    console.log(data.name + ", " + data.email + data.uid);
-
-    return userRef.set(data, { merge: true });
-
   }
 
   checkIfUserIsCustomer(uid: string) {
+
     this.customer = this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     });
 
-    if (this.customer !== null) {
-      console.log("all Loaded items  = " + JSON.stringify(this.customer));
-      return true;
-    }
-    return false;
+    this.customer.subscribe(data => {
+      if (this.customer !== null) {
+        console.log("all Loaded items  = " + JSON.stringify(data));
+        return true;
+      }
+      return false;
+    });
 
   }
 

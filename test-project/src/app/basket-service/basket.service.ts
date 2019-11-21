@@ -25,8 +25,8 @@ export class BasketService {
     })
   };
 
-  getBasketData() {
-    this.basketItems = this.httpService.get<basketItem[]>("https://localhost:5001/api/BasketItem/16", {
+  getBasketData(customerId: string ) {
+    this.basketItems = this.httpService.get<basketItem[]>("https://localhost:5001/api/BasketItem/" + customerId, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }).pipe(
       tap(),

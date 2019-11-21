@@ -1,37 +1,57 @@
+<div class="login">
 
-<div style="margin-top: 50px;">
+    <div *ngIf="auth.user | async; then authenticated else guest">
+        <!-- template will replace this div -->
+    </div>
 
-<div   *ngIf="auth.user | async; then authenticated else guest">
-    <!-- template will replace this div -->
-</div>
+    <!-- User NOT logged in -->
+    <ng-template #guest>
+        <div class="loginGuest">
 
+            <h3>Howdy, GUEST</h3>
+            <p>Login to get started...</p>
 
-<!-- User NOT logged in -->
-<ng-template #guest>
-<h3>Howdy, GUEST</h3>
-<p>Login to get started...</p>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <input [(ngModel)]="userdata.email" matInput placeholder="Email" [formControl]="emailFormControl">
+                    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                        Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="emailFormControl.hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input [(ngModel)]="userdata.pswrd" matInput type="password" placeholder="Password" [formControl]="passwrdFormControl">
+                    <mat-error *ngIf="passwrdFormControl.hasError('required')">
+                        Please enter a password
+                    </mat-error>
+                </mat-form-field>
 
-<button (click)="auth.googleLogin()">
-    <i class="fa fa-google"></i> Connect Google
-</button>
+                <button mat-flat-button color="primary" type="buton" class="btn btn-primary btn-block"
+                    (click)="signInWithEmail()"
+                    [disabled]="emailFormControl.hasError('required') || emailFormControl.hasError('email') || passwrdFormControl.hasError('required')">
+                    Login with Email
 
+                </button>
+            </form>
 
-</ng-template>
+            <h2>Or</h2>
+            <button mat-flat-button color="warn" (click)="auth.googleLogin()">
+                <i class="fa fa-google"></i> Login with Google
+            </button>
+        </div>
 
+    </ng-template>
 
-<!-- User logged in -->
-<ng-template #authenticated>
-<div *ngIf="auth.user | async as user">
-    <h3>Howdy, {{ user.name }}</h3>
-    <p>UID: {{ user.uid }}</p>
-    <p>Email: {{ user.email }} </p>
-    <button (click)="auth.signOut()">Logout</button>
-</div>
-</ng-template>
-
-
-
-
-
+    <!-- User logged in -->
+    <ng-template #authenticated >
+        <div *ngIf="auth.user | async as user" class="authenticated">
+            <h3>Howdy, {{ user.displayName }}</h3>
+            <p>UID: {{ user.uid }}</p>
+            <p>Email: {{ user.email }} </p>
+            <button mat-flat-button color="primary" (click)="auth.signOut()">Logout</button>
+        </div>
+    </ng-template>
 
 </div>

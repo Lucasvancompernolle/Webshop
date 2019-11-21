@@ -8,7 +8,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { Customer } from './Customer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FirebaseAuth, FirebaseDatabase, FirebaseAppConfig, FirebaseStorage } from '@angular/fire';
+import { Promise } from 'q';
 
 
 
@@ -20,7 +20,7 @@ export class AuthService {
 
   user: Observable<User>;
   customer: Observable<Customer>;
-  userData: User;
+  userData: UserData;
 
   UserLoggedIn;
 
@@ -54,16 +54,41 @@ export class AuthService {
 
   }
 
-  signInRegular(userdata: UserData) {
+  signInNewUser(userdata: UserData) {
 
     return this.afAuth.auth
-      .signInWithEmailAndPassword(userdata.email, userdata.pswrd).then(
-        res => {
-          const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${userdata.uid}`);
-          console.log(userdata);
-          userRef.set(userdata, { merge: true });
+      .signInWithEmailAndPassword(userdata.email, userdata.pswrd)
+      .then((credential) => {
+        const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
 
-        });
+
+        const data: UserData = {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          pswrd: userdata.pswrd,
+          admin: userdata.admin,
+          name: userdata.name,
+          displayName: userdata.displayName
+        }
+
+        console.log(data);
+
+        userRef.set(data, { merge: true });
+      });
+
+  }
+
+  signInRegular(email: string, password: string) : any {
+
+    return this.afAuth.auth
+      .signInWithEmailAndPassword(email, password);
+      // .then((credential) => {
+      //   const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
+      //   return credential.user.uid;
+      //   //this.userData = userRef.collection.prototype;
+
+      // });
+
   }
 
   //   async sendEmailVerification() {

@@ -6,6 +6,6 @@ export class basketItem {
   qty: number
   price: number
   closed: boolean
-  custNumber: number
+  custNumber: string
   delete: boolean
 }

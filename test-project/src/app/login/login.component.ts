@@ -3,6 +3,7 @@ import { AuthService } from '../authentication/auth.service';
 import { Validators, FormControl} from '@angular/forms';
 import { User, UserData } from '../authentication/user';
 import { Router } from '@angular/router';
+import { BasketService } from '../basket-service/basket.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   userdata = new UserData();
-  pssword;
+  
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   passwrdFormControl = new FormControl('', [Validators.required ]);
   
-  constructor(private router: Router, public auth: AuthService) {
+  constructor(private basketService: BasketService, public auth: AuthService) {
     
    }
 
@@ -36,9 +37,10 @@ export class LoginComponent implements OnInit {
 
   signInWithEmail() {
     // console.log(this.user.email + '   ' +  this.user.pswrd)
-    this.auth.signInRegular(this.userdata).then
+    
+    this.auth.signInRegular(this.userdata.email, this.userdata.pswrd ).then
     (
-     // res => this.router.navigate(["/"])
+      res => this.basketService.getBasketData(res.user.uid)
     );
       
  }

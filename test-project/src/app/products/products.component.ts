@@ -30,7 +30,8 @@ export class ProductsComponent implements OnInit {
 
   AddToBasket(productId: number) {
 
-    this.basketService.addCarToBasket(this.productService.findProduct(productId),1 );
+    let user = this.auth.userDetails();
+    this.basketService.addCarToBasket(this.productService.findProduct(productId), 1 , user.uid );
     setTimeout(() => this.basket.ngOnInit(),100);
   };
 

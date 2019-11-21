@@ -3,6 +3,7 @@ import { BasketService } from '../basket-service/basket.service';
 import { AuthService } from '../authentication/auth.service';
 import { RegisterService } from '../register-service/register.service';
 
+
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
@@ -10,19 +11,23 @@ import { RegisterService } from '../register-service/register.service';
 })
 export class BasketComponent implements OnInit {
 
+  
 
-  constructor( private basketService: BasketService, private auth: AuthService, private custService: RegisterService) {
+  constructor(private basketService: BasketService, private auth: AuthService) {
     
   }
 
   ngOnInit() {
-    this.basketService.getBasketData("16");
+    this.auth.user.subscribe(
+      data => data ? this.basketService.getBasketData(data.uid) : null
+    )
+
   }
 
   deleteSelectedItems() {
 
     this.basketService.deleteItem();
-    setTimeout(() => this.ngOnInit(),100);
+    setTimeout(() => this.ngOnInit(), 100);
   }
 
 }

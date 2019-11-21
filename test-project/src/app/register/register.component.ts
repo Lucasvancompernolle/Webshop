@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit {
     this.auth.createAccount(this.userdata)
       .then(res => {
 
-        this.auth.signInRegular(this.userdata)
+        this.auth.signInNewUser(this.userdata)
         var user = this.auth.afAuth.auth.currentUser;
         this.customer.custId = user.uid;
         //this.regService.createNewCustomer(this.customer);

@@ -22,30 +22,45 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                    <input [(ngModel)]="userdata.pswrd" matInput type="password" placeholder="Password" [formControl]="passwrdFormControl">
+                    <input [(ngModel)]="userdata.pswrd" matInput type="password" placeholder="Password"
+                        [formControl]="passwrdFormControl">
                     <mat-error *ngIf="passwrdFormControl.hasError('required')">
                         Please enter a password
                     </mat-error>
                 </mat-form-field>
 
-                <button mat-flat-button color="primary" type="buton" class="btn btn-primary btn-block"
-                    (click)="signInWithEmail()"
-                    [disabled]="emailFormControl.hasError('required') || emailFormControl.hasError('email') || passwrdFormControl.hasError('required')">
-                    Login with Email
+                <table>
+                    <tr>
+                        <td>
+                            <button mat-flat-button color="primary" type="buton" class="btn btn-primary btn-block"
+                                (click)="signInWithEmail()"
+                                [disabled]="emailFormControl.hasError('required') || emailFormControl.hasError('email') || passwrdFormControl.hasError('required')">
+                                Login with Email
 
-                </button>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btnRegister" mat-flat-button color="primary" type="buton"
+                                class="btn btn-primary btn-block" [routerLink]="['/register']">
+                                Register
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+
             </form>
 
             <h2>Or</h2>
             <button mat-flat-button color="warn" (click)="auth.googleLogin()">
                 <i class="fa fa-google"></i> Login with Google
             </button>
+
         </div>
 
     </ng-template>
 
     <!-- User logged in -->
-    <ng-template #authenticated >
+    <ng-template #authenticated>
         <div *ngIf="auth.user | async as user" class="authenticated">
             <h3>Howdy, {{ user.displayName }}</h3>
             <p>UID: {{ user.uid }}</p>

@@ -64,11 +64,11 @@ export class BasketService {
     
   }
 
-  addCarToBasket(product: Product, qty: number) {
+  addCarToBasket(product: Product, qty: number, custId: string) {
 
     let item = new basketItem();
     item.prodId = product.id;
-    item.custNumber = 16 // need to pass the real cust num
+    item.custNumber = custId 
     item.productBrand = product.brand;
     item.price = product.price;
     item.qty = qty;

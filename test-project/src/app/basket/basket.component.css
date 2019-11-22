@@ -10,6 +10,18 @@
     font-size: 10px
 }
 
+.btnCheckout{
+   
+  float: right;
+  
+}
+.btnBuy{
+   
+  float: right;
+  color: aliceblue;
+  background-color: limegreen;
+}
+
 .switch {
     position: relative;
     display: inline-block;
@@ -72,3 +84,10 @@
   .noItems{
       color: #2196F3;
   }
+  
+  table {
+    width: 100%;
+  }
+  
+
+  

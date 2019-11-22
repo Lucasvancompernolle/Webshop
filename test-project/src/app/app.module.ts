@@ -18,9 +18,12 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule, MatProgressBarModule, MatCardModule , MatButtonModule, MatIconModule} from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatProgressBarModule, MatCardModule , MatButtonModule, MatIconModule, MatCheckbox, MatCheckboxModule} from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule} from '@angular/material/stepper';
+import { CommonModule } from '@angular/common';
+import {MatTableModule} from '@angular/material/table';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +34,16 @@ import { MatStepperModule} from '@angular/material/stepper';
     LoginComponent,
     ProductsComponent,
     ProductDetailComponent,
-    RegisterComponent
+    RegisterComponent,
+    CheckoutComponent
 
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    CommonModule,
+    MatTableModule,
+    MatCheckboxModule,
     ReactiveFormsModule,
     RouteRoutingModule,
     HttpClientModule,

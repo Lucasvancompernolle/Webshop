@@ -33,8 +33,15 @@ export class BasketService {
       catchError(this.handleError));
 
     this.basketItems.subscribe(data => {
-      
+      let counter = 1;
       this._proposals = data; // save your data
+
+      for (const item of this._proposals) {
+       
+          item.position = counter;
+          counter ++;
+          console.log("CHANGED VALUE" + item.position);
+      };
       console.log("all Loaded items  = " + JSON.stringify(this._proposals))
       this.updateLists.next(this._proposals); // emit your data
     })

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class BasketComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'remove'];
-  dataSource ;
+ 
 
   constructor(private basketService: BasketService, private auth: AuthService, private router: Router) {
     

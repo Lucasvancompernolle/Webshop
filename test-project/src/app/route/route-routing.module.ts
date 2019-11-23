@@ -8,6 +8,8 @@ import { ProductDetailComponent } from '../product-detail/product-detail.compone
 import { AuthGuard } from '../authentication/auth.guard';
 import { RegisterComponent } from '../register/register.component';
 import { CheckoutComponent } from '../checkout/checkout.component';
+import { PaymentComponent } from '../payment/payment.component';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
@@ -15,9 +17,12 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent },
   {path: 'login', component: LoginComponent },
   {path: 'register', component: RegisterComponent },
+  {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
   {path: 'products', component: ProductsComponent, canActivate: [AuthGuard]},
   {path: 'products/:id', component: ProductDetailComponent, canActivate: [AuthGuard]},
   {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
+  {path: 'pageNotFound', component: PageNotFoundComponent},
+
   {path: '**', component: HomeComponent}
 ];
 

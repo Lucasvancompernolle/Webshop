@@ -3,7 +3,7 @@
     <div *ngIf="(this.basketService.basketItems | async)?.length; else NoItems" class="basket">
 
 
-        <table mat-table [dataSource]="this.basketService.basketItems" class="mat-elevation-z8">
+        <table mat-table [dataSource]="this.basketService._proposals" class="mat-elevation-z8">
 
             <!--- Note that these columns can be defined in any order.
                               The actual rendered columns are set as a property on the row definition" -->
@@ -56,7 +56,7 @@
                     </ng-template>
 
                     <ng-template #Buy>
-                        <button #Buy class="btnBuy" [routerLink]="['/buy']" mat-raised-button
+                        <button #Buy class="btnBuy" [routerLink]="['/payment']" mat-raised-button
                             >Buy</button>
                     </ng-template>
 

@@ -13,8 +13,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   styleUrls: ['./checkout.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -22,8 +22,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 
 export class CheckoutComponent implements OnInit {
 
-  dataSource: basketItem[] ;
-  dataSource2;
+
   columnsToDisplay = ['name', 'weight', 'price', 'position'];
   expandedElement: basketItem | null;
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'price'];
@@ -31,54 +30,62 @@ export class CheckoutComponent implements OnInit {
   selection = new SelectionModel<basketItem>(true, []);
 
   constructor(private basket: BasketService, private auth: AuthService) {
-    
-   }
+
+  }
 
   ngOnInit() {
     this.auth.user.subscribe(
-      data => 
-      {
-        data ? this.basket.getBasketData(data.uid) : null;
-        this.basket.basketItems.subscribe(
-          data => {this.dataSource = data;
-          this.dataSource2 = new MatTableDataSource<basketItem>(data);
-          }
-        );
-        
-      }
-    )
+      data => data ? this.basket.getBasketData(data.uid) : null);
+
   }
 
   getTotalCost() {
-    return this.dataSource.map(t => t.price * t.qty).reduce((acc, value) => acc + value, 0);
+    if (this.basket._proposals)
+      return this.basket._proposals.map(t => t.price * t.qty).reduce((acc, value) => acc + value, 0);
   }
-  
+
   deleteSelectedItems() {
 
     this.basket.deleteItem();
-    setTimeout(() => this.ngOnInit(), 100);
+
+    // this.masterToggle()
+    setTimeout(() => this.ngOnInit(), 300);
+    this.selection.clear();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
+
     const numSelected = this.selection.selected.length;
-    if(this.dataSource)
-    {
-      const numRows = this.dataSource2.data.length;
-      return numSelected === numRows;
-    }
+    const numRows = this.basket._proposals.length;
+
+    if (numSelected === 0 && numRows === 0)
+      return false;
+
+    return numSelected === numRows;
+
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
 
-    this.dataSource.forEach(element => {
-      element.delete = false;
-    });
-    this.ngOnInit();
-    // this.isAllSelected() ?
-    //     this.selection.clear() :
-    //     this.dataSource2.data.forEach(row => { this.selection.select(row)});
+
+    if (this.isAllSelected()) {
+
+      this.selection.clear()
+      this.basket._proposals.forEach(element => element.delete = true);
+      this.basket._proposals.forEach(element => this.basket.CandidateForDeletion(element.id));
+
+    }
+    else {
+
+      this.basket._proposals.forEach(element => {
+        this.selection.select(element);
+        element.delete = false;
+        this.basket.CandidateForDeletion(element.id);
+      });
+    }
+
   }
 
   /** The label for the checkbox on the passed row */
@@ -86,7 +93,8 @@ export class CheckoutComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    row.delete != row.delete;
+    // row.delete != row.delete;
+
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 

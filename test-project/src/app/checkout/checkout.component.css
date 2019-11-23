@@ -45,3 +45,21 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-description-attribution {
   opacity: 0.5;
 }
+
+.btnDelete{
+  border-radius: 20px;
+  background-color: crimson;
+  font-size: 10px
+}
+
+.btnCheckout{
+ 
+float: right;
+
+}
+.btnBuy{
+ 
+float: right;
+color: aliceblue;
+background-color: limegreen;
+}

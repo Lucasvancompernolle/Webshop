@@ -24,6 +24,8 @@ import { MatStepperModule} from '@angular/material/stepper';
 import { CommonModule } from '@angular/common';
 import {MatTableModule} from '@angular/material/table';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { PaymentComponent } from './payment/payment.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { CheckoutComponent } from './checkout/checkout.component';
     ProductsComponent,
     ProductDetailComponent,
     RegisterComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    PaymentComponent,
+    PageNotFoundComponent
 
   ],
   imports: [

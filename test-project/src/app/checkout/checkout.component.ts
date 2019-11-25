@@ -6,6 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { basketItem } from '../basket/basket';
 import { AuthService } from '../authentication/auth.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -28,6 +29,7 @@ export class CheckoutComponent implements OnInit {
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'price'];
 
   selection = new SelectionModel<basketItem>(true, []);
+  basketItems: Observable<basketItem[]>;
 
   constructor(private basket: BasketService, private auth: AuthService) {
 
@@ -35,21 +37,20 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     this.auth.user.subscribe(
-      data => data ? this.basket.getBasketData(data.uid) : null);
-
+      data => data ?
+        this.basket.getBasketData(data.uid) : null);
+    this.basketItems = this.basket.basketItems;
   }
 
   getTotalCost() {
-    if (this.basket._proposals)
-      return this.basket._proposals.map(t => t.price * t.qty).reduce((acc, value) => acc + value, 0);
+    //if (this.basket._proposals)
+      return this.basket.dataStore.basketItems.map(t => t.price * t.qty).reduce((acc, value) => acc + value, 0);
+
   }
 
   deleteSelectedItems() {
 
     this.basket.deleteItem();
-
-    // this.masterToggle()
-    setTimeout(() => this.ngOnInit(), 300);
     this.selection.clear();
   }
 
@@ -57,7 +58,7 @@ export class CheckoutComponent implements OnInit {
   isAllSelected() {
 
     const numSelected = this.selection.selected.length;
-    const numRows = this.basket._proposals.length;
+    const numRows = this.basket.BasketCount;
 
     if (numSelected === 0 && numRows === 0)
       return false;
@@ -69,17 +70,18 @@ export class CheckoutComponent implements OnInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
 
+   
 
     if (this.isAllSelected()) {
 
       this.selection.clear()
-      this.basket._proposals.forEach(element => element.delete = true);
-      this.basket._proposals.forEach(element => this.basket.CandidateForDeletion(element.id));
+      this.basket.dataStore.basketItems.forEach(element => element.delete = true);
+      this.basket.dataStore.basketItems.forEach(element => this.basket.CandidateForDeletion(element.id));
 
     }
     else {
 
-      this.basket._proposals.forEach(element => {
+      this.basket.dataStore.basketItems.forEach(element => {
         this.selection.select(element);
         element.delete = false;
         this.basket.CandidateForDeletion(element.id);

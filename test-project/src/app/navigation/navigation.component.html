@@ -4,9 +4,12 @@
         <li><a [routerLink]="['/home']">Home</a></li>
         <li><a [routerLink]="['/products']">Products</a></li>
 
+        <li>TEST: {{basketService.BasketCount}}</li>
+
         <li class="dropdown allignRight"><a [routerLink]="['/checkout']">
                 <img class="basket-img"
-                    src="https://cdn3.iconfinder.com/data/icons/glypho-free/64/shopping-purse-512.png"></a>
+                    src="https://cdn3.iconfinder.com/data/icons/glypho-free/64/shopping-purse-512.png">
+                </a>
             <div class="dropdown-content" >
                 <app-basket></app-basket>
             </div>

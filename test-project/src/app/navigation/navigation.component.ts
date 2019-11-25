@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authentication/auth.service';
+import { BasketService } from '../basket-service/basket.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,7 +9,8 @@ import { AuthService } from '../authentication/auth.service';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private auth: AuthService ) { 
+  constructor(private auth: AuthService ,
+    private basketService: BasketService) { 
     
   }
 

@@ -115,6 +115,39 @@ a {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.example-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: auto;
+    height: auto;
+    float: left;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 5px;
+    max-width: 400px;
+    max-height: 300px;
+    position: relative;
+    min-width: 175px;
+}
+
+.example-header-image {
+    background-size: cover;
+}
+
+.DeleteBtn{
+    float: right;
+    border-radius: 8px;
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 100%;
+    margin: 5px;
+}
+
 @media screen and (max-width: 394px) {
     button {
         height: auto;

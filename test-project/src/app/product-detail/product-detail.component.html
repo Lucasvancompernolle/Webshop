@@ -1,6 +1,102 @@
-<div style="padding-top: 40px">
+<!-- id: number; 
+brand: string;              
+name: string;               
+category: string;          
+info: string;
+price: number;
+description: string;
+ratingScore: number;
+picturePath: string;
+countryOfOrigin: string;
+productGroup: string;
+qtyOnStock: number;
+SalesUnit: string;
+ -->
 
-    <p>product-detail works!</p>
+<div class="ProductDetail-container">
+
     <h3>You selected Iproduct with id {{productId}}</h3>
-    <button (click)="PutInBasket()"></button>
+
+   
+
+    <div *ngIf="this.productService.auth.user | async;">
+        <ul>
+            <li> <button class="buyBtn" (click)="AddToBasket()">Buy</button></li>
+            <li> <input class="QtyFill" type="number" [(ngModel)]="this.ProductQty" min="0" max="99"></li>
+        </ul>
+
+    </div>
+    <div>
+            <img [src]="this.ProductItem.picturePath" [alt]="picture">
+        </div>
+
+    <form [formGroup]="ProductForm" (ngSubmit)="onSubmit(ProductForm.value)">
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="50" formControlName="brand"
+                    placeholder="Brand">
+                    
+            </mat-form-field>
+        </div>
+
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="50" formControlName="name"
+                    placeholder="Name">
+            </mat-form-field>
+        </div>
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="50" formControlName="productGroup"
+                    placeholder="Product group">
+            </mat-form-field>
+        </div>
+
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" type="number" matInput #input maxlength="10" formControlName="price"
+                    placeholder="Price">
+            </mat-form-field>
+        </div>
+        <div class="example-container">
+            <mat-form-field>
+                <textarea [readonly]="this.IsReadOnly" matInput formControlName="description" placeholder="Description"
+                    rows="10" cols="40" placeholder="Description">
+                </textarea>
+            </mat-form-field>
+
+        </div>
+        <div class="example-container">
+            <mat-form-field hintLabel="">
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="3" formControlName="countryOfOrigin"
+                    placeholder="COO">
+            </mat-form-field>
+        </div>
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="20" formControlName="sku"
+                    placeholder="Stock unit">
+            </mat-form-field>
+        </div>
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="500" formControlName="picturePath"
+                    placeholder="Picture path">
+            </mat-form-field>
+        </div>
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input maxlength="20" formControlName="SalesUnit"
+                    placeholder="SalesUnit">
+            </mat-form-field>
+        </div>
+
+        <div *ngIf="this.productService.auth.user | async as user">
+            <button *ngIf="user.admin == true && this.newProductMode == false" [disabled]="!ProductForm.valid" class="updateBtn" type="submit">Update</button>
+            <button *ngIf="user.admin == true && this.newProductMode == true" [disabled]="!ProductForm.valid" class="updateBtn" type="submit">Add</button>
+            
+        </div>
+
+    </form>
+    <button *ngIf="this.productService.auth.user | async;" class="deleteBtn" [disabled]="this.productId == 0" (click)="this.productService.DeleteProduct(item.id)">Delete</button>
 </div>

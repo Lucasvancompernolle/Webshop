@@ -10,6 +10,7 @@ import { RegisterComponent } from '../register/register.component';
 import { CheckoutComponent } from '../checkout/checkout.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { AdminComponent } from '../admin/admin.component';
 
 
 const routes: Routes = [
@@ -18,11 +19,11 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'register', component: RegisterComponent },
   {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
-  {path: 'products', component: ProductsComponent, canActivate: [AuthGuard]},
-  {path: 'products/:id', component: ProductDetailComponent, canActivate: [AuthGuard]},
+  {path: 'products', component: ProductsComponent},
+  {path: 'products/:id', component: ProductDetailComponent},
   {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: 'pageNotFound', component: PageNotFoundComponent},
-
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: '**', component: HomeComponent}
 ];
 

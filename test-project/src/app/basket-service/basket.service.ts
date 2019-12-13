@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
-import { basketItem } from '../basket/basket';
+import { basketItem } from './basket';
 import { tap, catchError, map, subscribeOn } from 'rxjs/operators';
 import { Product } from '../product-service/product';
 
@@ -11,8 +11,8 @@ import { Product } from '../product-service/product';
 export class BasketService {
 
 
-  private _basketItems = new BehaviorSubject<basketItem[]>([]);
   private baseUrl = 'https://localhost:5001/api/';
+  private _basketItems = new BehaviorSubject<basketItem[]>([]);
   dataStore: { basketItems: basketItem[] } = { basketItems: [] };
   readonly basketItems = this._basketItems.asObservable();
   BasketCount: number;
@@ -69,7 +69,7 @@ export class BasketService {
 
   }
 
-  addCarToBasket(product: Product, qty: number, custId: string) {
+  addProductToBasket(product: Product, qty: number, custId: string) {
 
     let item = new basketItem();
     item.prodId = product.id;

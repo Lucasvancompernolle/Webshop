@@ -35,6 +35,12 @@ export class LoginComponent implements OnInit {
 
   }
 
+  signOut()
+  {
+    this.basketService.BasketCount = 0;
+    this.auth.signOut();
+  }
+
   signInWithEmail() {
     // console.log(this.user.email + '   ' +  this.user.pswrd)
     

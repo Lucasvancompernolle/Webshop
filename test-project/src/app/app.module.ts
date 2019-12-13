@@ -26,6 +26,8 @@ import {MatTableModule} from '@angular/material/table';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AdminComponent } from './admin/admin.component';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RegisterComponent,
     CheckoutComponent,
     PaymentComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AdminComponent
 
   ],
   imports: [

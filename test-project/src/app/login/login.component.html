@@ -64,8 +64,9 @@
         <div *ngIf="auth.user | async as user" class="authenticated">
             <h3>Howdy, {{ user.displayName }}</h3>
             <p>UID: {{ user.uid }}</p>
+            <p>Admin: {{ user.admin }}</p>
             <p>Email: {{ user.email }} </p>
-            <button mat-flat-button color="primary" (click)="auth.signOut()">Logout</button>
+            <button mat-flat-button color="primary" (click)="signOut()">Logout</button>
         </div>
     </ng-template>
 

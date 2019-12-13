@@ -10,15 +10,14 @@ import { AuthService } from '../authentication/auth.service';
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
-  providers: [BasketService ]
+  providers: [BasketService]
 })
 
 export class ProductsComponent implements OnInit {
-  
-  constructor(private productService: ProductService, 
+
+  constructor(private productService: ProductService,
     private basketService: BasketService,
-    private basket : BasketComponent,
-    private auth: AuthService) {
+    private basket: BasketComponent) {
 
   }
 
@@ -30,10 +29,19 @@ export class ProductsComponent implements OnInit {
 
   AddToBasket(productId: number) {
 
-    let user = this.auth.userDetails();
-    this.basketService.addCarToBasket(this.productService.findProduct(productId), 1 , user.uid );
-    setTimeout(() => this.basket.ngOnInit(),100);
+    let user = this.productService.auth.userDetails();
+    this.basketService.addProductToBasket(this.productService.findProduct(productId), 1, user.uid);
+    setTimeout(() => this.basket.ngOnInit(), 100);
   };
+
+  DeleteProduct(prodId: number) {
+    this.productService.DeleteProduct(prodId).subscribe(
+      () => {
+        alert("Product deleted!");
+        this.ngOnInit();
+      }
+    );
+  }
 
   // performFilter(filterBy: string): Product[] {
   //   filterBy = filterBy.toLocaleLowerCase();

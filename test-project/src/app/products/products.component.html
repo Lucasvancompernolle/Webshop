@@ -1,26 +1,56 @@
-
 <div style="padding: 5em 5em">
-    <div class="card" *ngFor="let item of this.productService.productsData | async">
 
+    <!-- <div *ngFor="let item of this.productService.productsData | async">
+
+        <mat-card class="example-card" [routerLink]="['/products', item.id]">
+            <mat-card-header>
+                <img mat-card-avatar class="example-header-image" [src]='item.picturePath'>
+                <mat-card-title>{{item.brand}}</mat-card-title>
+                <mat-card-subtitle>{{item.sku}}</mat-card-subtitle>
+            </mat-card-header>
+            <img id="pictureCar" mat-card-image [src]='item.picturePath' alt="item.name">
+            <mat-card-content>
+
+                <h4>Description</h4>
+                <p>{{item.name}}</p>
+
+            </mat-card-content>
+
+            <mat-card-actions class="containerBottom">
+                <h3 id="price">price: {{item.price}}</h3>
+                <button *ngIf="this.auth.user | async;" class="buy" (click)="AddToBasket(item.id)">Buy</button>
+            </mat-card-actions>
+        </mat-card>
+    </div> -->
+
+
+
+
+    <div class="card" *ngFor="let item of this.productService.productsData | async">
+        <button *ngIf="this.productService.auth.user | async;" class="DeleteBtn"
+            (click)="DeleteProduct(item.id)">Delete</button>
         <a [routerLink]="['/products', item.id]">
             <div class="container">
-                <img class="brand" src="../../assets/Image/Logo.png" [alt]="item.brand">
-                <img id="pictureCar" [src]='item.picturePath' [alt]="item.picturePath">
+
+                <img class="brand" src="../../assets/Image/WebShopLogo.png" [alt]="item.brand">
+                <img id="pictureCar" [src]='item.picturePath' [alt]="item.name">
                 <p>Rating: {{item.ratingScore}}</p>
             </div>
             <div class="container description">
-                 <h3>{{item.id}}</h3>
+                <h3>{{item.id}}</h3>
                 <h3>{{item.brand}}</h3>
-                <h4>Info:  </h4>
+                <h4>Info: </h4>
                 <a>{{item.sku}}</a>
                 <h4>Description</h4>
                 <p>{{item.name}}</p>
-               
+
             </div>
         </a>
         <div class="containerBottom">
-            <h3  id="price">price:     {{item.price}}</h3>
-            <button *ngIf="this.auth.user | async;" class="buy" (click)="AddToBasket(item.id)">Buy</button>
+            <h3 id="price">price: {{item.price}}</h3>
+            <button *ngIf="this.productService.auth.user | async;" class="buy"
+                (click)="AddToBasket(item.id)">Buy</button>
+
         </div>
     </div>
 </div>

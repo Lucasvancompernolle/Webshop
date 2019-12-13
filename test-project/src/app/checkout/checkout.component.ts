@@ -3,7 +3,7 @@ import { BasketComponent } from '../basket/basket.component';
 import { BasketService } from '../basket-service/basket.service';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { basketItem } from '../basket/basket';
+import { basketItem } from '../basket-service/basket';
 import { AuthService } from '../authentication/auth.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Observable } from 'rxjs';
@@ -23,10 +23,8 @@ import { Observable } from 'rxjs';
 
 export class CheckoutComponent implements OnInit {
 
-
-  columnsToDisplay = ['name', 'weight', 'price', 'position'];
   expandedElement: basketItem | null;
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'price'];
+  displayedColumns: string[] = ['select', 'id', 'name', 'count', 'price', 'totalPrice'];
 
   selection = new SelectionModel<basketItem>(true, []);
   basketItems: Observable<basketItem[]>;

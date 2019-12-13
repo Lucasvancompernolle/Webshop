@@ -20,20 +20,21 @@ export class AuthService {
 
   user: Observable<User>;
   customer: Observable<Customer>;
-  userData: UserData;
-
+  userData: Observable<UserData>;
   UserLoggedIn;
-
+  
   constructor(public afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
     private httpService: HttpClient) {
 
+     
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
 
         if (user) {
+          this.userData = this.afs.doc<UserData>(`users/${user.uid}`).valueChanges();
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
         } else {
           return of(null)
@@ -78,16 +79,16 @@ export class AuthService {
 
   }
 
-  signInRegular(email: string, password: string) : any {
+  signInRegular(email: string, password: string): any {
 
     return this.afAuth.auth
       .signInWithEmailAndPassword(email, password);
-      // .then((credential) => {
-      //   const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
-      //   return credential.user.uid;
-      //   //this.userData = userRef.collection.prototype;
+    // .then((credential) => {
+    //   const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
+    //   return credential.user.uid;
+    //   //this.userData = userRef.collection.prototype;
 
-      // });
+    // });
 
   }
 
@@ -109,20 +110,25 @@ export class AuthService {
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
+        
+        const userRef: AngularFirestoreDocument<UserData> = this.afs.doc(`users/${credential.user.uid}`);
+   
 
-        const data: UserData = {
-          uid: credential.user.uid,
-          email: credential.user.email,
-          pswrd: "",
-          admin: false,
-          name: credential.user.displayName,
-          displayName: credential.user.displayName,
+        if (credential.additionalUserInfo.isNewUser == true) {
+         
+          const data: UserData = {
+            uid: credential.user.uid,
+            email: credential.user.email,
+            pswrd: "",
+            admin: false,
+            name: credential.user.displayName,
+            displayName: credential.user.displayName,
+          }
+
+          console.log(data);
+
+          userRef.set(data, { merge: true });
         }
-
-        console.log(data);
-
-        userRef.set(data, { merge: true });
       })
   }
 

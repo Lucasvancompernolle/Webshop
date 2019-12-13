@@ -3,7 +3,7 @@ import { BasketService } from '../basket-service/basket.service';
 import { AuthService } from '../authentication/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { basketItem } from './basket';
+import { basketItem } from '../basket-service/basket';
 
 
 @Component({

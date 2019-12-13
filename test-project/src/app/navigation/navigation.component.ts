@@ -9,12 +9,16 @@ import { BasketService } from '../basket-service/basket.service';
 })
 export class NavigationComponent implements OnInit {
 
+  LoggedIn: string;
+
   constructor(private auth: AuthService ,
     private basketService: BasketService) { 
-    
+   
   }
 
   ngOnInit() {
+   
+    
   }
 
   

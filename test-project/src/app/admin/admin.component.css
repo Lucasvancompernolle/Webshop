@@ -118,3 +118,18 @@ table {
 .example-button-row a {
   margin: 8px;
 }
+
+.btnExcels , input{
+  padding: 0 6px 0 6px;
+  margin: 6px 8px 6px 8px;
+  background-color: green;
+  color: blue;
+  min-width: 88px;
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration:none;
+  border: none;
+  outline: none;
+}

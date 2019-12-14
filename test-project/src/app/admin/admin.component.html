@@ -80,10 +80,12 @@
                 <div>
                     <div class="buttonContainer">
                         <button mat-raised-button color="primary" [routerLink]="['/products', 0]">Add product</button>
-                        <button mat-raised-button color="primary">Upload products</button>
+                        <button mat-raised-button color="primary" [routerLink]="['/uploadExcel']">Upload Excel</button>
+                        <button mat-raised-button color="primary" (click)="this.productService.DownloadExcel()">Download Excel</button>
                     </div>
                     <app-products></app-products>
                 </div>
+
             </ul>
         </li>
     </ul>

@@ -27,6 +27,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminComponent } from './admin/admin.component';
+import { UploadExcelComponent } from './upload-excel/upload-excel.component';
+
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { AdminComponent } from './admin/admin.component';
     CheckoutComponent,
     PaymentComponent,
     PageNotFoundComponent,
-    AdminComponent
+    AdminComponent,
+    UploadExcelComponent
 
   ],
   imports: [

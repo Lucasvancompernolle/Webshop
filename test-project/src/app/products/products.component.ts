@@ -5,6 +5,7 @@ import { BasketComponent } from '../basket/basket.component';
 import { BasketService } from '../basket-service/basket.service';
 import { ProductService } from '../product-service/product.service';
 import { AuthService } from '../authentication/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -15,6 +16,8 @@ import { AuthService } from '../authentication/auth.service';
 
 export class ProductsComponent implements OnInit {
 
+  products: Observable<Product[]>;
+  
   constructor(private productService: ProductService,
     private basketService: BasketService,
     private basket: BasketComponent) {
@@ -24,6 +27,7 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
 
     this.productService.getProducts();
+    this.products = this.productService.products;
 
   }
 
@@ -35,12 +39,8 @@ export class ProductsComponent implements OnInit {
   };
 
   DeleteProduct(prodId: number) {
-    this.productService.DeleteProduct(prodId).subscribe(
-      () => {
-        alert("Product deleted!");
-        this.ngOnInit();
-      }
-    );
+    this.productService.DeleteProduct(prodId);
+
   }
 
   // performFilter(filterBy: string): Product[] {

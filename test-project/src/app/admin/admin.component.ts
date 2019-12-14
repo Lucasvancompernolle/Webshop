@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { ProductService } from '../product-service/product.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -17,11 +18,12 @@ export class AdminComponent implements OnInit {
   dataSource = ELEMENT_DATA;
   columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
   expandedElement: PeriodicElement | null;
-  constructor() { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
   }
 
+  
 }
 
 export interface PeriodicElement {

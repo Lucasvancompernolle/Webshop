@@ -11,6 +11,7 @@ import { CheckoutComponent } from '../checkout/checkout.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { AdminComponent } from '../admin/admin.component';
+import { UploadExcelComponent } from '../upload-excel/upload-excel.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: 'pageNotFound', component: PageNotFoundComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
+  {path: 'uploadExcel', component: UploadExcelComponent, canActivate: [AuthGuard]},
   {path: '**', component: HomeComponent}
 ];
 

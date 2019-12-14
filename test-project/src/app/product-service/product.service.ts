@@ -71,10 +71,13 @@ export class ProductService {
       );
   }
 
-  UploadExcel() {
+  UploadExcel(productsFromExcel: Product[]) {
     
 
-    //return this.httpService.post("https://localhost:5001/api/products/UploadExcel", formData, httpOptions)
+    return this.httpService.post<Product>("https://localhost:5001/api/products/list", productsFromExcel,
+      { headers: new HttpHeaders().set('Content-Type', 'application/json') }).pipe(
+        tap(product => console.log("Added products from exel: " + JSON.stringify(product))),
+        catchError(this.handleError));
   }
 
   DownloadExcel() {

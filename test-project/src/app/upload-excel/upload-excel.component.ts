@@ -22,8 +22,8 @@ export class UploadExcelComponent implements OnInit {
 
   Upload: boolean = false;
   myFiles: string[] = [];
-  displayedColumns: string[] = 
-  ['id', 'name', 'brand', 'price', 'salesUnit', 'ratingScore', 'qtyOnHand', 'productGroup', 'sku', 'description', 'picturePath' ];
+  displayedColumns: string[] =
+    ['id', 'name', 'brand', 'price', 'salesUnit', 'ratingScore', 'qtyOnHand', 'productGroup', 'sku', 'description', 'picturePath'];
 
   constructor(private httpService: HttpClient, private ProductService: ProductService) { }
 
@@ -34,120 +34,101 @@ export class UploadExcelComponent implements OnInit {
 
   getFileDetails(event) {
     if (event.target.files.length > 1) {
-    alert("Upload max 1 file!")
+      alert("Upload max 1 file!")
     }
 
-      var name = event.target.files[0].name;
-      var type = event.target.files[0].type;
-      var size = event.target.files[0].size;
-      var modifiedDate = event.target.files[0].lastModifiedDate;
+    var name = event.target.files[0].name;
+    var type = event.target.files[0].type;
+    var size = event.target.files[0].size;
+    var modifiedDate = event.target.files[0].lastModifiedDate;
 
-      let workBook: XLSX.WorkBook = null;
-      let jsonData = null;
+    let workBook: XLSX.WorkBook = null;
+    let jsonData = null;
 
-      const reader = new FileReader();
-      const file = event.target.files[0];
+    const reader = new FileReader();
+    const file = event.target.files[0];
 
-      reader.onload = (event) => {
-        const data = reader.result;
-        workBook = XLSX.read(data, { type: 'binary', cellNF: true });
+    reader.onload = (event) => {
+      const data = reader.result;
+      workBook = XLSX.read(data, { type: 'binary', cellNF: true });
 
 
-        workBook.SheetNames.reduce((initial, name) => {
+      workBook.SheetNames.reduce((initial, name) => {
 
-          let products: Product[] = [];
-          const sheet: XLSX.WorkSheet = workBook.Sheets[name];
+        let products: Product[] = [];
+        const sheet: XLSX.WorkSheet = workBook.Sheets[name];
 
-          var range = XLSX.utils.decode_range(sheet['!ref']);
-          //Read all cells that are filled in
-          for (let index = 4; index < range.e.r; index++) {
-            let product: Product = new Product();
+        var range = XLSX.utils.decode_range(sheet['!ref']);
 
-            try {
-              product.id = (sheet["A" + index].v);
+        if(range.e.r > 100)
+        {
+          alert("Only up to 100 records are allowed to upload!")
+          return;
+        }
+        //Read all cells that are filled in
+        for (let index = 4; index < range.e.r + 1; index++) {
+          let product: Product = new Product();
+          let emptyProducts: Product = new Product();
 
-            } catch (error) {
-              console.log("empty cell");
-            }
-            try {
-              product.name = sheet["B" + index].v;
 
-            } catch (error) {
-              console.log("empty cell");
-            }
-            try {
-              product.brand = sheet["C" + index].v;
+          /* Find desired cell */
+          var desired_cell = sheet["A" + index];
+          product.id = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            }
-            try {
-              product.price = sheet["D" + index].v;
+          var desired_cell = sheet["B" + index];
+          product.name = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            }
-            try {
-              product.salesUnit = sheet["E" + index].v;
+          var desired_cell = sheet["C" + index];
+          product.brand = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            }
-            try {
-              product.ratingScore = sheet["F" + index].v;
+          var desired_cell = sheet["D" + index];
+          product.price = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            }
-            try {
-              product.qtyOnHand = sheet["G" + index].v;
-            } catch (error) {
-              console.log("empty cell");
-            } try {
-              product.productGroup = sheet["H" + index].v;
+          var desired_cell = sheet["E" + index];
+          product.salesUnit = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            } try {
-              product.sku = sheet["I" + index].v;
+          var desired_cell = sheet["F" + index];
+          product.ratingScore = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            } try {
-              product.description = sheet["J" + index].v;
+          var desired_cell = sheet["G" + index];
+          product.qtyOnHand = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            } try {
-              product.picturePath = sheet["K" + index].v;
+          var desired_cell = sheet["H" + index];
+          product.productGroup = (desired_cell ? desired_cell.v : undefined);
 
-            } catch (error) {
-              console.log("empty cell");
-            }
+          var desired_cell = sheet["I" + index];
+          product.sku = (desired_cell ? desired_cell.v : undefined);
 
+          var desired_cell = sheet["J" + index];
+          product.description = (desired_cell ? desired_cell.v : undefined);
+
+          var desired_cell = sheet["K" + index];
+          product.picturePath = (desired_cell ? desired_cell.v : undefined);
+
+          if (JSON.stringify(products) !== JSON.stringify(emptyProducts))
             products.push(product);
 
-          }
+        }
 
-          this.Upload = true;
-          console.log(JSON.stringify(products))
+        this.Upload = true;
+        console.log(JSON.stringify(products))
 
-          this.dataStore.products = products;
-          this._products.next(Object.assign({}, this.dataStore).products);
+        this.dataStore.products = products;
+        this._products.next(Object.assign({}, this.dataStore).products);
 
-          initial[name] = XLSX.utils.sheet_to_json(sheet);
-          return initial;
+        initial[name] = XLSX.utils.sheet_to_json(sheet);
+        return initial;
 
 
-        }, {});
-        
-      }
-      reader.readAsBinaryString(file);
-      console.log('Name: ' + name + "\n" +
-        'Type: ' + type + "\n" +
-        'Last-Modified-Date: ' + modifiedDate + "\n" +
-        'Size: ' + Math.round(size / 1024) + " KB");
-    
+      }, {});
+
+    }
+    reader.readAsBinaryString(file);
+    console.log('Name: ' + name + "\n" +
+      'Type: ' + type + "\n" +
+      'Last-Modified-Date: ' + modifiedDate + "\n" +
+      'Size: ' + Math.round(size / 1024) + " KB");
+
   }
 
   UploadProductsExcel() {

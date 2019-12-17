@@ -28,6 +28,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminComponent } from './admin/admin.component';
 import { UploadExcelComponent } from './upload-excel/upload-excel.component';
+import { OrderComponent } from './order/order.component';
 
 
 
@@ -45,7 +46,8 @@ import { UploadExcelComponent } from './upload-excel/upload-excel.component';
     PaymentComponent,
     PageNotFoundComponent,
     AdminComponent,
-    UploadExcelComponent
+    UploadExcelComponent,
+    OrderComponent
 
   ],
   imports: [

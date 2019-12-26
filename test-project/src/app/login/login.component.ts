@@ -42,8 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithEmail() {
-    // console.log(this.user.email + '   ' +  this.user.pswrd)
-    
+        
     this.auth.signInRegular(this.userdata.email, this.userdata.pswrd ).then
     (
       res => this.basketService.getBasketData(res.user.uid)

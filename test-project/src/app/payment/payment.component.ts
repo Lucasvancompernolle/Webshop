@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../authentication/auth.service';
+import { OrderService } from '../order/order-service.service';
+import { BasketService } from '../basket-service/basket.service';
 
 @Component({
   selector: 'app-payment',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaymentComponent implements OnInit {
 
-  constructor() { }
+  custNo: string;
+  constructor(private authService: AuthService, 
+    private orderService: OrderService) { 
+
+    this.authService.user.subscribe(
+      data => this.custNo = data.uid)
+  }
 
   ngOnInit() {
+  }
+
+  ConfirmOrder()
+  {
+    this.orderService.confirmOrder(this.custNo);
   }
 
 }

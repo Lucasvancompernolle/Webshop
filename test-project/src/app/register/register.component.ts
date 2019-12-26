@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer } from '../authentication/Customer';
+import { Customer } from '../customer/Customer';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { AuthService } from '../authentication/auth.service';
 import { RegisterService } from '../register-service/register.service';

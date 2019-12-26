@@ -9,18 +9,20 @@ import { BasketService } from '../basket-service/basket.service';
 })
 export class NavigationComponent implements OnInit {
 
-  LoggedIn: string;
+  LoggedInOut: string;
 
-  constructor(private auth: AuthService ,
-    private basketService: BasketService) { 
-   
+  constructor(private auth: AuthService,
+    private basketService: BasketService) {
+    auth.UserLoggedIn.subscribe(value => {
+      this.LoggedInOut = value
+    });
   }
 
   ngOnInit() {
-   
-    
+
+
   }
 
-  
+
 
 }

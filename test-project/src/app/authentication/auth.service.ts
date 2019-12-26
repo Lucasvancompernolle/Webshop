@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { auth } from 'firebase/app'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { UserData, User } from './user';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
-import { Customer } from './Customer';
+import { Customer } from '../customer/Customer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Promise } from 'q';
-
 
 
 @Injectable({
@@ -17,23 +15,21 @@ import { Promise } from 'q';
 })
 export class AuthService {
 
-
   user: Observable<User>;
   customer: Observable<Customer>;
   userData: Observable<UserData>;
-  UserLoggedIn;
-  
+  UserLoggedIn = new BehaviorSubject<string>("Login");
+
+
   constructor(public afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
     private httpService: HttpClient) {
-
-     
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
-
         if (user) {
+          this.UserLoggedIn.next("Logout");
           this.userData = this.afs.doc<UserData>(`users/${user.uid}`).valueChanges();
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
         } else {
@@ -41,7 +37,6 @@ export class AuthService {
         }
       })
     )
-
   }
 
   userDetails() {
@@ -49,10 +44,8 @@ export class AuthService {
   }
 
   createAccount(userData: UserData) {
-
     return this.afAuth.auth
       .createUserWithEmailAndPassword(userData.email, userData.pswrd);
-
   }
 
   signInNewUser(userdata: UserData) {
@@ -62,7 +55,6 @@ export class AuthService {
       .then((credential) => {
         const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
 
-
         const data: UserData = {
           uid: credential.user.uid,
           email: credential.user.email,
@@ -71,69 +63,60 @@ export class AuthService {
           name: userdata.name,
           displayName: userdata.displayName
         }
-
+        this.UserLoggedIn.next("Logout");
         console.log(data);
-
         userRef.set(data, { merge: true });
       });
 
   }
 
   signInRegular(email: string, password: string): any {
-
+    this.UserLoggedIn.next("Logout");
     return this.afAuth.auth
       .signInWithEmailAndPassword(email, password);
-    // .then((credential) => {
-    //   const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
-    //   return credential.user.uid;
-    //   //this.userData = userRef.collection.prototype;
-
-    // });
-
   }
 
-  //   async sendEmailVerification() {
-  //     await this.afAuth.auth.currentUser.sendEmailVerification()
-  //     this.router.navigate(['admin/verify-email']);
-  // }
+  async sendEmailVerification() {
+    await this.afAuth.auth.currentUser.sendEmailVerification()
+    // this.router.navigate(['admin/verify-email']);
+  }
 
-  // async sendPasswordResetEmail(passwordResetEmail: string) {
-  //   return await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
-  // }
+  async sendPasswordResetEmail(passwordResetEmail: string) {
+    return await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+  }
 
   googleLogin() {
     const provider = new auth.GoogleAuthProvider()
     return this.oAuthLogin(provider);
-
   }
 
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        
         const userRef: AngularFirestoreDocument<UserData> = this.afs.doc(`users/${credential.user.uid}`);
-   
 
-        if (credential.additionalUserInfo.isNewUser == true) {
-         
-          const data: UserData = {
-            uid: credential.user.uid,
-            email: credential.user.email,
-            pswrd: "",
-            admin: false,
-            name: credential.user.displayName,
-            displayName: credential.user.displayName,
+        this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).snapshotChanges().subscribe(res => {
+          if (res.length > 0) {
+            const data: UserData = {
+              uid: credential.user.uid,
+              email: credential.user.email,
+              pswrd: undefined,
+              admin: false,
+              name: credential.user.displayName,
+              displayName: credential.user.displayName
+            }
+            this.UserLoggedIn.next("Logout");
+            userRef.set(data, { merge: true });
           }
-
-          console.log(data);
-
-          userRef.set(data, { merge: true });
-        }
+          else {
+            alert("Register first");
+            this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
+          }
+        });
       })
   }
 
   checkIfUserIsCustomer(uid: string) {
-
     this.customer = this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     });
@@ -145,12 +128,12 @@ export class AuthService {
       }
       return false;
     });
-
   }
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {
       this.customer = null;
+      this.UserLoggedIn.next("Login");
       this.router.navigate(['/']);
     });
   }

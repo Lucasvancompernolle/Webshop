@@ -40,7 +40,7 @@
         <li><a href="#">Open orders</a>
             <ul class="dropdown">
 
-                <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+                <!-- <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
                     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
                         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                         <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -70,8 +70,8 @@
                         (click)="expandedElement = expandedElement === element ? null : element">
                     </tr>
                     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                </table>
-
+                </table> -->
+                <app-order></app-order>
 
             </ul>
         </li>

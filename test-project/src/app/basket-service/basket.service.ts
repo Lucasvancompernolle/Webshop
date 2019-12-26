@@ -31,7 +31,7 @@ export class BasketService {
 
   getBasketData(customerId: string) {
     this.httpService.get<basketItem[]>("https://localhost:5001/api/BasketItem/" + customerId,
-      { headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).subscribe(data => {
+      { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
         console.log(data);
         this.BasketCount = data.length;
         data.forEach((item) => item.delete = false);
@@ -40,6 +40,15 @@ export class BasketService {
       }, error => console.log('Could not load todos.'));
   }
 
+  CloseBasketItems() {
+    this.dataStore.basketItems.forEach(b => b.closed = true);
+    this.UpdateBasketData(this.dataStore.basketItems);
+    this.dataStore.basketItems = null;
+    this.BasketCount = 0;
+    this._basketItems.next(Object.assign({}, this.dataStore).basketItems);
+
+
+  }
 
   CandidateForDeletion(num: number) {
 
@@ -78,6 +87,7 @@ export class BasketService {
     item.price = product.price;
     item.qty = qty;
     item.delete = false;
+    item.closed = false;
 
 
     this.pushBasketData(item);
@@ -94,6 +104,16 @@ export class BasketService {
             console.log("New item" + JSON.stringify(data));
           }
         );
+
+  }
+
+  UpdateBasketData(items) {
+    this.httpService.put("https://localhost:5001/api/basketitem", JSON.stringify(items), this.httpOptions).subscribe(
+      data => {
+        console.log("Updated" + JSON.stringify(data));
+
+      }
+    );
 
   }
 

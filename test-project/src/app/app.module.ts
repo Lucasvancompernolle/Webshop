@@ -22,13 +22,14 @@ import { MatFormFieldModule, MatInputModule, MatProgressBarModule, MatCardModule
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule} from '@angular/material/stepper';
 import { CommonModule } from '@angular/common';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule} from '@angular/material/table';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminComponent } from './admin/admin.component';
 import { UploadExcelComponent } from './upload-excel/upload-excel.component';
 import { OrderComponent } from './order/order.component';
+import { CustomerComponent } from './customer/customer.component';
 
 
 
@@ -47,7 +48,8 @@ import { OrderComponent } from './order/order.component';
     PageNotFoundComponent,
     AdminComponent,
     UploadExcelComponent,
-    OrderComponent
+    OrderComponent,
+    CustomerComponent
 
   ],
   imports: [

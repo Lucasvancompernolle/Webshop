@@ -17,7 +17,7 @@ SalesUnit: string;
 
     <h3>You selected Iproduct with id {{productId}}</h3>
 
-   
+
 
     <div *ngIf="this.productService.auth.user | async;">
         <ul>
@@ -27,15 +27,15 @@ SalesUnit: string;
 
     </div>
     <div>
-            <img [src]="this.ProductItem.picturePath" [alt]="picture">
-        </div>
+        <img [src]="this.ProductItem.picturePath" [alt]="picture">
+    </div>
 
     <form [formGroup]="ProductForm" (ngSubmit)="onSubmit(ProductForm.value)">
         <div class="example-container">
             <mat-form-field>
                 <input [readonly]="this.IsReadOnly" matInput #input maxlength="50" formControlName="brand"
                     placeholder="Brand">
-                    
+
             </mat-form-field>
         </div>
 
@@ -92,11 +92,16 @@ SalesUnit: string;
         </div>
 
         <div *ngIf="this.productService.auth.user | async as user">
-            <button *ngIf="user.admin == true && this.newProductMode == false" [disabled]="!ProductForm.valid" class="updateBtn" type="submit">Update</button>
-            <button *ngIf="user.admin == true && this.newProductMode == true" [disabled]="!ProductForm.valid" class="updateBtn" type="submit">Add</button>
-            
+            <button *ngIf="user.admin == true && this.newProductMode == false" [disabled]="!ProductForm.valid"
+                class="updateBtn" type="submit">Update</button>
+            <button *ngIf="user.admin == true && this.newProductMode == true" [disabled]="!ProductForm.valid"
+                class="updateBtn" type="submit">Add</button>
+
         </div>
 
     </form>
-    <button *ngIf="this.productService.auth.user | async;" class="deleteBtn" [disabled]="this.productId == 0" (click)="this.productService.DeleteProduct(item.id)">Delete</button>
+    <div *ngIf="this.productService.auth.user | async as user">
+        <button *ngIf="user.admin == true;" class="deleteBtn" [disabled]="this.productId == 0"
+            (click)="this.productService.DeleteProduct(item.id)">Delete</button>
+    </div>
 </div>

@@ -27,8 +27,11 @@
 
 
     <div class="card" *ngFor="let item of this.products | async">
-        <button *ngIf="this.productService.auth.user | async;" class="DeleteBtn"
+        <div *ngIf="this.productService.auth.user | async as user;" >
+            <button *ngIf="user.admin == true" class="DeleteBtn"
             (click)="DeleteProduct(item.id)">Delete</button>
+        </div>
+        
         <a [routerLink]="['/products', item.id]">
             <div class="container">
 

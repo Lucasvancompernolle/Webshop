@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Customer } from '../authentication/Customer';
+import { Customer } from '../customer/Customer';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';

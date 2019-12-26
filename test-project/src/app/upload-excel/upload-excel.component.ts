@@ -28,7 +28,7 @@ export class UploadExcelComponent implements OnInit {
   constructor(private httpService: HttpClient, private ProductService: ProductService) { }
 
   ngOnInit() {
-
+    this.Upload = false;
   }
 
 
@@ -66,10 +66,9 @@ export class UploadExcelComponent implements OnInit {
           return;
         }
         //Read all cells that are filled in
-        for (let index = 4; index < range.e.r + 1; index++) {
+        for (let index = 4; index <= (range.e.r + 1) ; index++) {
           let product: Product = new Product();
           let emptyProducts: Product = new Product();
-
 
           /* Find desired cell */
           var desired_cell = sheet["A" + index];
@@ -105,6 +104,9 @@ export class UploadExcelComponent implements OnInit {
           var desired_cell = sheet["K" + index];
           product.picturePath = (desired_cell ? desired_cell.v : undefined);
 
+          var desired_cell = sheet["L" + index];
+          product.countryOfOrigin = (desired_cell ? desired_cell.v : undefined);
+
           if (JSON.stringify(products) !== JSON.stringify(emptyProducts))
             products.push(product);
 
@@ -132,9 +134,12 @@ export class UploadExcelComponent implements OnInit {
   }
 
   UploadProductsExcel() {
-    this.Upload = false;
+    
     this.ProductService.UploadExcel(this.dataStore.products).subscribe(
-      () => alert("Products uploaded from excel!")
+      () => {
+        alert("Products uploaded from excel!");
+        this.ngOnInit();
+      }
     )
   }
 

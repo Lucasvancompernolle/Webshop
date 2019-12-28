@@ -1,0 +1,16 @@
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\API.deps.json
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\API.runtimeconfig.json
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\API.runtimeconfig.dev.json
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\API.dll
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\API.pdb
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.RazorAssemblyInfo.cache
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.RazorAssemblyInfo.cs
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.AssemblyInfoInputs.cache
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.AssemblyInfo.cs
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.RazorTargetAssemblyInfo.cache
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.dll
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.pdb
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\lucas\Desktop\Eind project\Api\API\API\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
+C:\Users\lucas\Desktop\Eind project\Api\API\API\obj\Debug\netcoreapp2.2\API.csprojAssemblyReference.cache

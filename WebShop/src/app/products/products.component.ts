@@ -31,10 +31,16 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  AddToBasket(productId: number) {
+  AddToBasket(productId: number, qtyOrder: number) {
+
+    if(qtyOrder == 0)
+    {
+      alert("Quantity must be at least 1!");
+      return;
+    }
 
     let user = this.productService.auth.userDetails();
-    this.basketService.addProductToBasket(this.productService.findProduct(productId), 1, user.uid);
+    this.basketService.addProductToBasket(this.productService.findProduct(productId), qtyOrder, user.uid);
     setTimeout(() => this.basket.ngOnInit(), 100);
   };
 

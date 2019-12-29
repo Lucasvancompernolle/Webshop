@@ -1,32 +1,35 @@
-<div style="padding: 5em 5em">
+<div class="container" >
 
-    <!-- <div *ngFor="let item of this.productService.productsData | async">
+    <mat-grid-list cols="2" *ngFor="let item of this.products | async">
 
-        <mat-card class="example-card" [routerLink]="['/products', item.id]">
-            <mat-card-header>
-                <img mat-card-avatar class="example-header-image" [src]='item.picturePath'>
-                <mat-card-title>{{item.brand}}</mat-card-title>
-                <mat-card-subtitle>{{item.sku}}</mat-card-subtitle>
-            </mat-card-header>
-            <img id="pictureCar" mat-card-image [src]='item.picturePath' alt="item.name">
-            <mat-card-content>
 
+        <div class="card">
+            <div *ngIf="this.productService.auth.user | async as user;">
+                <button *ngIf="user.admin == true" class="DeleteBtn" (click)="DeleteProduct(item.id)">Delete</button>
+            </div>
+            <div [routerLink]="['/products', item.id]">
+                <img class="prodImg" [src]='item.picturePath' [alt]="item.name">
+                <h1>{{item.name | slice:0:10}}</h1>
+                <h3>{{item.brand}}</h3>
+                <a>{{item.sku}}</a>
                 <h4>Description</h4>
-                <p>{{item.name}}</p>
-
-            </mat-card-content>
-
-            <mat-card-actions class="containerBottom">
-                <h3 id="price">price: {{item.price}}</h3>
-                <button *ngIf="this.auth.user | async;" class="buy" (click)="AddToBasket(item.id)">Buy</button>
-            </mat-card-actions>
-        </mat-card>
-    </div> -->
-
+                <span>{{item.description | slice:0:200}}</span>
+                <p class="price">Price: {{item.price}}</p>
+            </div>
+            <div *ngIf="this.productService.auth.user | async;">
+                <p><button class="buyBtn" (click)="AddToBasket(item.id, qtyOrder.value)" for='qtyOrder'>Buy</button>
+                </p>
+                <p><input #qtyOrder type="number" value="1" name='qtyOrder' style="width: 50px;"></p>
+            </div>
+        </div>
 
 
+    </mat-grid-list>
 
-    <div class="card" *ngFor="let item of this.products | async">
+
+
+
+    <!-- <div class="card" *ngFor="let item of this.products | async">
         <div *ngIf="this.productService.auth.user | async as user;" >
             <button *ngIf="user.admin == true" class="DeleteBtn"
             (click)="DeleteProduct(item.id)">Delete</button>
@@ -55,5 +58,5 @@
                 (click)="AddToBasket(item.id)">Buy</button>
 
         </div>
-    </div>
+    </div> -->
 </div>

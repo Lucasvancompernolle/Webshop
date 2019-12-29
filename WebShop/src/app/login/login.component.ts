@@ -45,7 +45,10 @@ export class LoginComponent implements OnInit {
         
     this.auth.signInRegular(this.userdata.email, this.userdata.pswrd ).then
     (
-      res => this.basketService.getBasketData(res.user.uid)
+      res => {
+        if (res != undefined)
+        this.basketService.getBasketData(res.user.uid)
+      }
     );
       
  }

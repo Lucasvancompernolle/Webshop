@@ -28,10 +28,20 @@ namespace API.Services
 
         public Customer GetCustomer(string custId)
         {
-            Customer customer = _customerContext.Customer.First(p => p.LoginId == custId);
-            customer.Address = _customerContext.Address.First(a => a.Id == customer.Id);
+            Customer customer;
+            try
+            {
+                customer = _customerContext.Customer.First(p => p.LoginId == custId);
+                customer.Address = _customerContext.Address.First(a => a.Id == customer.Id);
 
-            return customer;
+                return customer;
+            }
+            catch
+            {
+                return null;
+            }
+
+            
         }
 
         public bool Save()

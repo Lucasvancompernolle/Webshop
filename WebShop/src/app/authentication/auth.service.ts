@@ -73,7 +73,15 @@ export class AuthService {
   signInRegular(email: string, password: string): any {
     this.UserLoggedIn.next("Logout");
     return this.afAuth.auth
-      .signInWithEmailAndPassword(email, password);
+      .signInWithEmailAndPassword(email, password).then(
+        credential => {
+          if(this.checkIfUserIsCustomer(credential.user.uid) == false)
+          {
+            alert("Register first");
+            this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
+          }
+        }
+      ).catch( error => alert(error))
   }
 
   async sendEmailVerification() {
@@ -96,7 +104,7 @@ export class AuthService {
         const userRef: AngularFirestoreDocument<UserData> = this.afs.doc(`users/${credential.user.uid}`);
 
         this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).snapshotChanges().subscribe(res => {
-          if (res.length > 0) {
+          if (res.length > 0 && this.checkIfUserIsCustomer(credential.user.uid) == true) {
             const data: UserData = {
               uid: credential.user.uid,
               email: credential.user.email,
@@ -116,18 +124,16 @@ export class AuthService {
       })
   }
 
-  checkIfUserIsCustomer(uid: string) {
-    this.customer = this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
+   checkIfUserIsCustomer(uid: string) {
+    let customer = this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    });
-
-    this.customer.subscribe(data => {
-      if (this.customer !== null) {
-        console.log("all Loaded items  = " + JSON.stringify(data));
-        return true;
-      }
-      return false;
-    });
+    }).toPromise().catch( error => console.log("User does not exist"));
+    
+    if (this.customer !== null) {
+      console.log("Customer exists");
+      return true;
+    }
+    return false;
   }
 
   signOut() {

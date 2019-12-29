@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lucas\\Desktop\\Eind project\\Api\\API\\API\\API.csproj": {}
+    "C:\\Users\\lucas\\Desktop\\Webshop\\API\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lucas\\Desktop\\Eind project\\Api\\API\\API\\API.csproj": {
+    "C:\\Users\\lucas\\Desktop\\Webshop\\API\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lucas\\Desktop\\Eind project\\Api\\API\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\lucas\\Desktop\\Webshop\\API\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\lucas\\Desktop\\Eind project\\Api\\API\\API\\API.csproj",
+        "projectPath": "C:\\Users\\lucas\\Desktop\\Webshop\\API\\API\\API.csproj",
         "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lucas\\Desktop\\Eind project\\Api\\API\\API\\obj\\",
+        "outputPath": "C:\\Users\\lucas\\Desktop\\Webshop\\API\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -96,16 +96,10 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }

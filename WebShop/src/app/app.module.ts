@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule} from '@angular/material/stepper';
 import { CommonModule } from '@angular/common';
 import { MatTableModule} from '@angular/material/table';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -66,6 +67,7 @@ import { MatProgressSpinnerModule } from '@angular/material';
     MatButtonModule,
     MatInputModule,
     MatCardModule,
+    MatGridListModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,

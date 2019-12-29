@@ -15,14 +15,14 @@ SalesUnit: string;
 
 <div class="ProductDetail-container">
 
-    <h3>You selected Iproduct with id {{productId}}</h3>
+    <h3>You selected product with id {{productId}}</h3>
 
 
 
     <div *ngIf="this.productService.auth.user | async;">
         <ul>
             <li> <button class="buyBtn" (click)="AddToBasket()">Buy</button></li>
-            <li> <input class="QtyFill" type="number" [(ngModel)]="this.ProductQty" min="0" max="99"></li>
+            <li> <input  class="QtyFill" type="number" [(ngModel)]="this.ProductQty" min="0" max="99"></li>
         </ul>
 
     </div>

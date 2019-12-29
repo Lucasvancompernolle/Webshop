@@ -60,20 +60,21 @@ export class RegisterComponent implements OnInit {
       fourthCtrl1: ['', [
         Validators.required,
         Validators.email,
-      ]]
-    });
-
-    this.fourthFormGroupPswrd = this._formBuilder.group({
+      ]],
       fourthCtrl2: ['', [Validators.required]],
-      fourthCtrl3: ['']
-    }, { validator: this.checkPasswords });
+      fourthCtrl3: ['', [Validators.required]]
+    }, { validator: this.checkPasswords});
+
+
+   
+      
 
   }
 
   checkPasswords(group: FormGroup) { // here we have the 'passwords' group
     let pass = group.controls.fourthCtrl2.value;
     let confirmPass = group.controls.fourthCtrl3.value;
-    return pass === confirmPass ? null : { notSame: true }
+    return pass == confirmPass ? null : { notSame: true }
   }
 
   CreateCustomer() {
@@ -101,4 +102,5 @@ export class RegisterComponent implements OnInit {
   }
 
 }
+
 

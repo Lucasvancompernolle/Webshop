@@ -6,6 +6,7 @@ import { BasketService } from '../basket-service/basket.service';
 import { ProductService } from '../product-service/product.service';
 import { AuthService } from '../authentication/auth.service';
 import { Observable } from 'rxjs';
+import { fromTask } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-products',
@@ -49,11 +50,13 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  // performFilter(filterBy: string): Product[] {
-  //   filterBy = filterBy.toLocaleLowerCase();
-  //   return this.products.filter((product: Product) =>
-  //   product.brand.toLocaleLowerCase().indexOf(filterBy) !== -1);
-  // }
+  performFilter(filterBy: string) {
+   
+    this.productService.filterProducts(filterBy);
+    this.products = this.productService.products;
+    
+    
+  }
 
 }
 

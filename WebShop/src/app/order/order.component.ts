@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from './order-service.service';
 import { Order, OrderLine } from './order';
 import { Observable } from 'rxjs';
-import { SelectionModel } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -25,7 +24,7 @@ export class OrderComponent implements OnInit {
   expandedElement: OrderLine | null;
   columnsToDisplay = ['orderId', 'invoiceId', 'custId', 'payed', 'pdf'];
   displayedColumns: string[] = ['lineNo', 'item', 'qtyOrdered'];
-  //selection = new SelectionModel<Order>(true, []);
+ 
 
   constructor(private orderService: OrderService) {
     
@@ -42,45 +41,6 @@ export class OrderComponent implements OnInit {
     this.orderLines = this.orderService.orderLines;
   }
 
-  // isAllSelected() {
-
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.orderService.ordersCount;
-    
-
-  //   if (numSelected === 0 && numRows === 0)
-  //     return false;
-
-  //   return numSelected === numRows;
-
-  // }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // masterToggle() {
-
-  //   if (this.isAllSelected()) {
-
-  //     this.selection.clear()
-  //     this.orderService.dataStore.orders.forEach(element => element.selected = true);
-
-  //   }
-  //   else {
-
-  //     this.orderService.dataStore.orders.forEach(element => {
-  //       this.selection.select(element);
-  //       element.selected = false;
-  //     });
-  //   }
-  // }
-
-  // /** The label for the checkbox on the passed row */
-  // checkboxLabel(row?: Order): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-  //   }
-  //   // row.delete != row.delete;
-
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  // }
+  
 
 }

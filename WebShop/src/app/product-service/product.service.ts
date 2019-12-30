@@ -47,6 +47,11 @@ export class ProductService {
     }
   }
 
+  filterProducts(filterBy: string){
+    
+    this._products.next(Object.assign({}, this.dataStore).products.filter(value => value.name.toLocaleLowerCase().includes(filterBy.toLocaleLowerCase())));
+  }
+
   AddProduct(product: Product) {
     return this.httpService.post<Product>("https://localhost:5001/api/products", product,
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).pipe(

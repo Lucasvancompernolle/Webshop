@@ -40,35 +40,56 @@ namespace API.Controllers
             return customer;
         }
 
-        //// PUT: api/Customers/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutCustomer(int id, Customer customer)
-        //{
-        //    if (id != customer.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpGet]
+        public ActionResult<Customer> GetCustomers()
+        {
 
-        //    _context.Entry(customer).State = EntityState.Modified;
+            var customers = _customerRepository.getCustomers();
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CustomerExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            var mappedCustomers = new List<CustomerDto>();
 
-        //    return NoContent();
-        //}
+            foreach (var cust in customers)
+            {
+                mappedCustomers.Add(_mapper.Map<CustomerDto>(cust));
+            }
+
+            if (mappedCustomers == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mappedCustomers);
+        }
+
+        // PUT: api/Customers/5
+        [HttpPut("{id}")]
+        public ActionResult PutCustomer(string id, CustomerDto customerDto)
+        {
+            var mappedCustomer = _mapper.Map<Customer>(customerDto);
+
+            if (id != mappedCustomer.LoginId)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _customerRepository.UpdateCustomer(mappedCustomer);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CustomerExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                   return NoContent();
+                }
+            }
+
+            return Ok(mappedCustomer);
+        }
 
         // POST: api/Customers
         [HttpPost]
@@ -78,29 +99,24 @@ namespace API.Controllers
            
               _customerRepository.AddCustomer(mappedCustomer);
 
-            return Ok();
+            return Ok(customerDto);
           
         }
 
-        //// DELETE: api/Customers/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Customer>> DeleteCustomer(int id)
-        //{
-        //    var customer = await _context.Customer.FindAsync(id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/Customers/5
+        [HttpDelete("{id}")]
+        public  ActionResult DeleteCustomer(string id)
+        {
+           
+            _customerRepository.DeleteCustomer(id);
+            
 
-        //    _context.Customer.Remove(customer);
-        //    await _context.SaveChangesAsync();
+            return Ok(_customerRepository.DeleteCustomer(id));
+        }
 
-        //    return customer;
-        //}
-
-        //private bool CustomerExists(int id)
-        //{
-        //    return _context.Customer.Any(e => e.Id == id);
-        //}
+        private bool CustomerExists(string id)
+        {
+            return _customerRepository.GetCustomer(id) != null;
+        }
     }
 }

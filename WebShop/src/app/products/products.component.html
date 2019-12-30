@@ -1,5 +1,9 @@
 <div class="container" >
 
+    <mat-form-field>
+        <input matInput (keyup)="performFilter($event.target.value)" placeholder="Search">
+      </mat-form-field>
+
     <mat-grid-list cols="2" *ngFor="let item of this.products | async">
 
 
@@ -26,37 +30,4 @@
 
     </mat-grid-list>
 
-
-
-
-    <!-- <div class="card" *ngFor="let item of this.products | async">
-        <div *ngIf="this.productService.auth.user | async as user;" >
-            <button *ngIf="user.admin == true" class="DeleteBtn"
-            (click)="DeleteProduct(item.id)">Delete</button>
-        </div>
-        
-        <a [routerLink]="['/products', item.id]">
-            <div class="container">
-
-                <img class="brand" src="../../assets/Image/WebShopLogo.png" [alt]="item.brand">
-                <img id="pictureCar" [src]='item.picturePath' [alt]="item.name">
-                <p>Rating: {{item.ratingScore}}</p>
-            </div>
-            <div class="container description">
-                <h3>{{item.id}}</h3>
-                <h3>{{item.brand}}</h3>
-                <h4>Info: </h4>
-                <a>{{item.sku}}</a>
-                <h4>Description</h4>
-                <p>{{item.name}}</p>
-
-            </div>
-        </a>
-        <div class="containerBottom">
-            <h3 id="price">price: {{item.price}}</h3>
-            <button *ngIf="this.productService.auth.user | async;" class="buy"
-                (click)="AddToBasket(item.id)">Buy</button>
-
-        </div>
-    </div> -->
 </div>

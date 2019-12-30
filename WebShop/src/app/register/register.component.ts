@@ -65,10 +65,6 @@ export class RegisterComponent implements OnInit {
       fourthCtrl3: ['', [Validators.required]]
     }, { validator: this.checkPasswords});
 
-
-   
-      
-
   }
 
   checkPasswords(group: FormGroup) { // here we have the 'passwords' group
@@ -78,7 +74,6 @@ export class RegisterComponent implements OnInit {
   }
 
   CreateCustomer() {
-    console.log(JSON.stringify(this.customer));
     this.userdata = new UserData()
 
     this.userdata.admin = false;

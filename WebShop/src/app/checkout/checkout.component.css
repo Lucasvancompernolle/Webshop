@@ -53,12 +53,14 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .btnCheckout{
- 
 float: right;
-
 }
 
 
+.picture{
+  height: 90px;
+  width: 120px;
+}
 
 .btnBuy{
  

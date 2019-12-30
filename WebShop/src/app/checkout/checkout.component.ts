@@ -23,8 +23,8 @@ import { Observable } from 'rxjs';
 
 export class CheckoutComponent implements OnInit {
 
-  expandedElement: basketItem | null;
-  displayedColumns: string[] = ['select', 'id', 'name', 'count', 'price', 'totalPrice'];
+  
+  displayedColumns: string[] = ['select', 'picture', 'name', 'count', 'price', 'totalPrice'];
 
   selection = new SelectionModel<basketItem>(true, []);
   basketItems: Observable<basketItem[]>;

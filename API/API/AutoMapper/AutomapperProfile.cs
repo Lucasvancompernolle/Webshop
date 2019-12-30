@@ -13,7 +13,7 @@ namespace API.AutoMapper
     {
         public AutomapperProfile()
         {
-            CreateMap<Customer, CustomerDto>().ReverseMap();
+
 
             CreateMap<CustomerDto, Customer>()
                 .ForMember(dest => dest.LoginId, map => map.MapFrom(src => src.custId))
@@ -24,7 +24,18 @@ namespace API.AutoMapper
                 .ForMember(dest => dest.MobilePhone, map => map.MapFrom(src => src.phone))
                 .ForMember(dest => dest.EmailAddress, map => map.MapFrom(src => src.email));
 
-            
+            CreateMap<Customer, CustomerDto>()
+                .ForMember(dest => dest.custId, map => map.MapFrom(src => src.LoginId))
+                .ForMember(dest => dest.firstName, map => map.MapFrom(src => src.Name))
+                .ForMember(dest => dest.lastName, map => map.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.street, map => map.MapFrom(src => src.Address.Street))
+                .ForMember(dest => dest.houseNumber, map => map.MapFrom(src => src.Address.StreetNumber))
+                .ForMember(dest => dest.city, map => map.MapFrom(src => src.Address.City))
+                .ForMember(dest => dest.postalCode, map => map.MapFrom(src => src.Address.PostalCode))
+                .ForMember(dest => dest.country, map => map.MapFrom(src => src.Address.Country))
+                .ForMember(dest => dest.phone, map => map.MapFrom(src => src.MobilePhone))
+                .ForMember(dest => dest.email, map => map.MapFrom(src => src.EmailAddress));
+           
 
         }
     }

@@ -8,6 +8,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { Customer } from '../customer/Customer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CustomerService } from '../customer/customer.service';
 
 
 @Injectable({
@@ -16,7 +17,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AuthService {
 
   user: Observable<User>;
-  customer: Observable<Customer>;
+
   userData: Observable<UserData>;
   UserLoggedIn = new BehaviorSubject<string>("Login");
 
@@ -24,7 +25,7 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
-    private httpService: HttpClient) {
+    private custService: CustomerService) {
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -75,13 +76,18 @@ export class AuthService {
     return this.afAuth.auth
       .signInWithEmailAndPassword(email, password).then(
         credential => {
-          if(this.checkIfUserIsCustomer(credential.user.uid) == false)
-          {
+          if (this.custService.checkIfUserIsCustomer(credential.user.uid) == false) {
             alert("Register first");
+            this.afs.collection(`users`, ref => ref.where('email', "==", this.afAuth.auth.currentUser.email)).doc().delete();
             this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
           }
+        
         }
-      ).catch( error => alert(error))
+      ).catch(error => {
+        this.UserLoggedIn.next("Login");
+        alert("Not registered yet, redirecting to registration...");
+        this.router.navigate(['/register']);
+      })
   }
 
   async sendEmailVerification() {
@@ -104,7 +110,7 @@ export class AuthService {
         const userRef: AngularFirestoreDocument<UserData> = this.afs.doc(`users/${credential.user.uid}`);
 
         this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).snapshotChanges().subscribe(res => {
-          if (res.length > 0 && this.checkIfUserIsCustomer(credential.user.uid) == true) {
+          if (res.length > 0 && this.custService.checkIfUserIsCustomer(credential.user.uid) == true) {
             const data: UserData = {
               uid: credential.user.uid,
               email: credential.user.email,
@@ -118,27 +124,18 @@ export class AuthService {
           }
           else {
             alert("Register first");
+            this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).doc().delete();
             this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
           }
         });
       })
   }
 
-   checkIfUserIsCustomer(uid: string) {
-    let customer = this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    }).toPromise().catch( error => console.log("User does not exist"));
-    
-    if (this.customer !== null) {
-      console.log("Customer exists");
-      return true;
-    }
-    return false;
-  }
+
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {
-      this.customer = null;
+      this.custService.customer = null;
       this.UserLoggedIn.next("Login");
       this.router.navigate(['/']);
     });

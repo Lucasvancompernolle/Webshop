@@ -9,4 +9,5 @@ export class basketItem {
   closed: boolean;
   custNumber: string;
   delete: boolean;
+  picture: string;
 }

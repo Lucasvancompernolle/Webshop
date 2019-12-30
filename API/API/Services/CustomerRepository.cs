@@ -15,15 +15,47 @@ namespace API.Services
         {
             _customerContext = customerContext;
         }
-        public void AddCustomer(Customer customer)
+        public bool AddCustomer(Customer customer)
         {
-            _customerContext.Add(customer);
-            _customerContext.SaveChanges();
+            Customer customerExist;
+            try
+            {
+                customerExist = _customerContext.Customer.First(p => p.EmailAddress == customer.EmailAddress);
+
+                if (customerExist != null)
+                {
+                    customer.Id = customerExist.Id;
+                    _customerContext.Update(customer);
+
+                }
+
+
+                else
+                    _customerContext.Add(customer);
+
+                return _customerContext.SaveChanges() > 0;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void DeleteCustomer(string custId)
+        public bool DeleteCustomer(string custId)
         {
-            throw new NotImplementedException();
+            Customer customer;
+            try
+            {
+                customer = _customerContext.Customer.First(p => p.LoginId == custId);
+                _customerContext.Remove(customer);
+                return _customerContext.SaveChanges() > 0;
+            }
+            catch
+            {
+                return false;
+            }
+
+
         }
 
         public Customer GetCustomer(string custId)
@@ -41,7 +73,20 @@ namespace API.Services
                 return null;
             }
 
-            
+
+        }
+
+        public IEnumerable<Customer> getCustomers()
+        {
+            List<Customer> customers = _customerContext.Customer.Where(p => p.Id != 0)
+                                                                 .ToList();
+
+            foreach (var cust in customers)
+            {
+                cust.Address = _customerContext.Address.First(a => a.Id == cust.Id);
+            }
+
+            return customers;
         }
 
         public bool Save()
@@ -51,7 +96,13 @@ namespace API.Services
 
         public Customer UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            _customerContext.Update(customer);
+
+            return customer;
+
+
         }
+
+
     }
 }

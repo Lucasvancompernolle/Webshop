@@ -1,23 +1,7 @@
-<!-- id: number; 
-brand: string;              
-name: string;               
-category: string;          
-info: string;
-price: number;
-description: string;
-ratingScore: number;
-picturePath: string;
-countryOfOrigin: string;
-productGroup: string;
-qtyOnStock: number;
-SalesUnit: string;
- -->
 
 <div class="ProductDetail-container">
 
     <h3>You selected product with id {{productId}}</h3>
-
-
 
     <div *ngIf="this.productService.auth.user | async;">
         <ul>
@@ -80,7 +64,7 @@ SalesUnit: string;
         </div>
         <div class="example-container">
             <mat-form-field>
-                <input [readonly]="this.IsReadOnly" matInput #input maxlength="500" formControlName="picturePath"
+                <input [readonly]="this.IsReadOnly" matInput #input  formControlName="picturePath"
                     placeholder="Picture path">
             </mat-form-field>
         </div>

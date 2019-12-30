@@ -10,8 +10,9 @@ namespace API.Services
     {
 
         Customer GetCustomer(string custId);
-        void AddCustomer(Customer customer);
-        void DeleteCustomer(string custId);
+        IEnumerable<Customer> getCustomers();
+        bool AddCustomer(Customer customer);
+        bool DeleteCustomer(string custId);
         Customer UpdateCustomer(Customer customer);
         bool Save();
     }

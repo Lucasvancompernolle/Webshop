@@ -34,7 +34,14 @@ export class BasketService {
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
         console.log(data);
         this.BasketCount = data.length;
-        data.forEach((item) => item.delete = false);
+        data.forEach((item) =>
+        {
+          item.delete = false
+          this.httpService.get<Product>("https://localhost:5001/api/products/" + item.prodId).subscribe(
+            data => item.picture = data.picturePath
+          )
+
+        } );
         this.dataStore.basketItems = data;
         this._basketItems.next(Object.assign({}, this.dataStore).basketItems);
       }, error => console.log('Could not load todos.'));

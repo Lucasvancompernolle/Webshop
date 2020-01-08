@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Customers;
 using API.Customers.CustomerAddress;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Services
 {
@@ -18,27 +19,26 @@ namespace API.Services
         public bool AddCustomer(Customer customer)
         {
             Customer customerExist;
-            try
+
+            customerExist = _customerContext.Customer.AsNoTracking().Where(p => p.EmailAddress == customer.EmailAddress).FirstOrDefault();
+
+            if (customerExist != null)
             {
-                customerExist = _customerContext.Customer.First(p => p.EmailAddress == customer.EmailAddress);
-
-                if (customerExist != null)
-                {
-                    customer.Id = customerExist.Id;
-                    _customerContext.Update(customer);
-
-                }
+                customer.Id = customerExist.Id;
+                customerExist = customer;
 
 
-                else
-                    _customerContext.Add(customer);
+                _customerContext.Update(customerExist);
 
-                return _customerContext.SaveChanges() > 0;
             }
-            catch
-            {
-                return false;
-            }
+
+
+            else
+                _customerContext.Add(customer);
+
+            return _customerContext.SaveChanges() > 0;
+
+
         }
 
         public bool DeleteCustomer(string custId)

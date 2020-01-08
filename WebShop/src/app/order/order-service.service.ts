@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Order, OrderLine } from './Order';
 import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ProductService } from '../product-service/product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +52,7 @@ export class OrderService {
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
 
-        this.dataStoreLines.orderLines = data;
+        this.dataStoreLines.orderLines = data.sort((n1,n2)=> n1.lineNo - n2.lineNo);
         this._orderLines.next(Object.assign({}, this.dataStoreLines).orderLines);
 
       }, error => alert("getting orders failed!"));

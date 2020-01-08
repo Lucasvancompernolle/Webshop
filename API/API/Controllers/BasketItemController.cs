@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using API.Basket;
+using API.Products;
 using API.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -12,16 +13,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class BasketItemController : ControllerBase
     {
         private readonly IBasketItemRepository _basketItemRepository;
+        private readonly IProductRepository _productRepository;
 
-        public BasketItemController(IBasketItemRepository basketItemRepository)
+        public BasketItemController(IBasketItemRepository basketItemRepository, IProductRepository productRepository)
         {
             _basketItemRepository = basketItemRepository;
+            _productRepository = productRepository;
         }
 
         [HttpOptions]
@@ -39,38 +42,51 @@ namespace API.Controllers
             return Ok(basketItems);
         }
 
-        //// GET: api/BasketItem/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
+       
+        //[HttpPost]
+        //public IActionResult AddBasketItems([FromBody] IEnumerable<BasketItem> basketItems)
         //{
-        //    return "value";
+
+        //    if (basketItems == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    foreach (var item in basketItems)
+        //    {
+        //        _basketItemRepository.AddBasketItem(item);
+        //    }
+
+        //    if (!_basketItemRepository.Save())
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    return Ok(basketItems);
+
         //}
 
-        // POST: api/BasketItem
-
         [HttpPost]
-        public IActionResult AddBasketItems([FromBody] IEnumerable<BasketItem> basketItems)
+        public IActionResult AddBasketItem([FromBody] BasketItem basketItem)
         {
 
-            if (basketItems == null)
+            if (basketItem == null)
             {
                 return BadRequest();
             }
 
-            foreach (var item in basketItems)
-            {
-                _basketItemRepository.AddBasketItem(item);
-            }
+            _basketItemRepository.AddBasketItem(basketItem);
+
 
             if (!_basketItemRepository.Save())
             {
                 return BadRequest();
             }
 
-            return Ok(basketItems);
-           
+            return Ok(basketItem);
+
         }
-     
+
 
         // PUT: api/BasketItem/5
         [HttpPut]
@@ -84,8 +100,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            //BasketItem item =_basketItemRepository.GetBasketItem(id);
+            //Product product = _productRepository.GetProduct(item.ProdId);
+            //product.QtyOnHand += item.Qty;
+            //_productRepository.UpdateProduct(product);
+
             _basketItemRepository.DeleteBasketItem(id);
-           _basketItemRepository.Save();
+            _basketItemRepository.Save();
 
             return Ok();
         }

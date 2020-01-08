@@ -10,6 +10,7 @@ using API.Orders;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
+using API.Products;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,11 +22,13 @@ namespace API.Controllers
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ICustomerRepository _customerRepository;
+        
 
         public OrdersController(IOrderRepository orderRepository, ICustomerRepository customerRepository)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
+            
         }
         // GET: api/<controller>
         [HttpGet]
@@ -36,10 +39,10 @@ namespace API.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public ActionResult<IEnumerable<OrderLine>> GetOrderLines(int id)
+        [HttpGet("{invoiceId}")]
+        public ActionResult<IEnumerable<OrderLine>> GetOrderLines(string invoiceId)
         {
-            var orderLines = _orderRepository.GetOrderLinesOrder(id);
+            var orderLines = _orderRepository.GetOrderLinesOrder(invoiceId);
             return Ok(orderLines);
         }
 
@@ -48,7 +51,7 @@ namespace API.Controllers
         {
             var order = _orderRepository.GetOrder(ordId);
             var customer = _customerRepository.GetCustomer(order.CustId);
-            List<OrderLine> orderLines = new List<OrderLine>(_orderRepository.GetOrderLinesOrder(ordId));
+            List<OrderLine> orderLines = new List<OrderLine>(_orderRepository.GetOrderLinesOrder(order.InvoiceId));
 
             string invoiceTemplate = ".\\Documents\\Invoices\\Template\\InvoiceTemplate.pdf";
             PdfCreator pdf = new PdfCreator(invoiceTemplate, customer, order, orderLines);
@@ -73,6 +76,8 @@ namespace API.Controllers
 
             foreach (var item in basketItems)
             {
+               
+
                 OrderLine orderLine = new OrderLine();
                 
                 orderLine.ProdId = item.ProdId;
@@ -81,6 +86,7 @@ namespace API.Controllers
                 orderLine.Price = item.Qty * item.Price;
 
                 orderLines.Add(orderLine);
+
             }
 
             Order order = _orderRepository.ConfirmOrder(custId, orderLines);

@@ -34,16 +34,11 @@ export class CustomerService {
     )
   }
 
-  checkIfUserIsCustomer(uid: string) {
-    let customer = this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
+  checkIfUserIsCustomer(uid: string) : Observable<Customer> {
+   return this.httpService.get<Customer>("https://localhost:5001/api/Customers/" + uid, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    }).toPromise().catch( error => console.log("User does not exist"));
+    });
     
-    if (customer !== null) {
-      console.log("Customer exists");
-      return true;
-    }
-    return false;
   }
 
   createCustomer(customer: Customer)
@@ -51,6 +46,12 @@ export class CustomerService {
     this.httpService.post<Customer>("https://localhost:5001/api/customers", JSON.stringify(customer),
     this.httpOptions).subscribe(data => console.log("New customer " + JSON.stringify(customer)));
 
+  }
+
+  filterCustName(filterBy: string){
+    
+    this._customers.next(Object.assign({}, this.dataStore).customers.filter(value => value.firstName.toLocaleLowerCase().includes(filterBy.toLocaleLowerCase())||
+                                                                                     value.lastName.toLocaleLowerCase().includes(filterBy.toLocaleLowerCase())));
   }
 
 

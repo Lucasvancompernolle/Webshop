@@ -53,7 +53,7 @@ namespace API
             services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddDbContext<BasketItemContext>(o => o.UseSqlServer(connectionString));
-            services.AddScoped<IBasketItemRepository, BasketItemRepository>();
+            services.AddScoped<IBasketItemRepository, BasketItemRepository>().AddScoped<IProductRepository, ProductRepository>();
 
             services.AddDbContext<CustomerContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<ICustomerRepository, CustomerRepository>();

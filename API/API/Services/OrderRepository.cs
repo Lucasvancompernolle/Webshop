@@ -65,9 +65,9 @@ namespace API.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<OrderLine> GetOrderLinesOrder(int ordId)
+        public IEnumerable<OrderLine> GetOrderLinesOrder(string ordId)
         {
-            return _orderContext.OrderLine.Where(orderLine => orderLine.OrderId == ordId).ToList();
+            return _orderContext.OrderLine.Where(orderLine => orderLine.InvoiceId == ordId).ToList();
         }
 
         public IEnumerable<Order> GetOrders()

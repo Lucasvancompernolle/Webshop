@@ -56,7 +56,7 @@ namespace API.Services
 
         public BasketItem GetBasketItem(int id)
         {
-            throw new NotImplementedException();
+            return _basketItemContext.BasketItems.Where(a => a.Id == id).SingleOrDefault();
         }
 
         public void UpdateBasketItem(BasketItem item)

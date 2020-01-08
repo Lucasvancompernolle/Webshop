@@ -22,8 +22,8 @@ export class OrderComponent implements OnInit {
   
   orderLines: Observable<OrderLine[]>
   expandedElement: OrderLine | null;
-  columnsToDisplay = ['orderId', 'invoiceId', 'custId', 'payed', 'pdf'];
-  displayedColumns: string[] = ['lineNo', 'item', 'qtyOrdered'];
+  columnsToDisplay = ['orderId', 'invoiceId', 'custId', 'payed', 'pdf', 'closeOrder'];
+  displayedColumns: string[] = ['lineNo', 'item', 'qtyOrdered', 'closeLine'];
  
 
   constructor(private orderService: OrderService) {
@@ -35,9 +35,9 @@ export class OrderComponent implements OnInit {
     this.orders = this.orderService.orders;
   }
 
-  getOrderLines(orderId: number)
+  getOrderLines(invoiceId: number)
   {
-    this.orderService.getorderLines(orderId);
+    this.orderService.getorderLines(invoiceId);
     this.orderLines = this.orderService.orderLines;
   }
 

@@ -1,12 +1,9 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Product } from '../product-service/product';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BasketComponent } from '../basket/basket.component';
 import { BasketService } from '../basket-service/basket.service';
 import { ProductService } from '../product-service/product.service';
-import { AuthService } from '../authentication/auth.service';
 import { Observable } from 'rxjs';
-import { fromTask } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-products',
@@ -56,6 +53,13 @@ export class ProductsComponent implements OnInit {
     this.products = this.productService.products;
     
     
+  }
+
+  filterProductsPrice(filterBy: string) {
+   
+
+    this.productService.filterProductsPrice(filterBy);
+    this.products = this.productService.products;
   }
 
 }

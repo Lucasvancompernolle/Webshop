@@ -76,12 +76,16 @@ export class AuthService {
     return this.afAuth.auth
       .signInWithEmailAndPassword(email, password).then(
         credential => {
-          if (this.custService.checkIfUserIsCustomer(credential.user.uid) == false) {
-            alert("Register first");
-            this.afs.collection(`users`, ref => ref.where('email', "==", this.afAuth.auth.currentUser.email)).doc().delete();
-            this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
-          }
-        
+
+          this.custService.checkIfUserIsCustomer(credential.user.uid).subscribe(
+            valid => {
+              if (valid == null) {
+                this.UserLoggedIn.next("Login");
+                alert("Not registered yet, redirecting to registration...");
+                this.router.navigate(['/register']);
+              }
+            })
+
         }
       ).catch(error => {
         this.UserLoggedIn.next("Login");
@@ -110,7 +114,20 @@ export class AuthService {
         const userRef: AngularFirestoreDocument<UserData> = this.afs.doc(`users/${credential.user.uid}`);
 
         this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).snapshotChanges().subscribe(res => {
-          if (res.length > 0 && this.custService.checkIfUserIsCustomer(credential.user.uid) == true) {
+          if (res.length > 0) {
+
+
+            this.custService.checkIfUserIsCustomer(credential.user.uid).subscribe(
+              valid => {
+                if (valid == null) {
+                  this.UserLoggedIn.next("Login");
+                  console.log("User does not exist");
+                  alert("Register first");
+                  this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).doc(credential.user.uid).delete();
+                  this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
+                }
+              })
+
             const data: UserData = {
               uid: credential.user.uid,
               email: credential.user.email,
@@ -121,10 +138,12 @@ export class AuthService {
             }
             this.UserLoggedIn.next("Logout");
             userRef.set(data, { merge: true });
+
           }
           else {
             alert("Register first");
-            this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).doc().delete();
+            this.UserLoggedIn.next("Login");
+            this.afs.collection(`users`, ref => ref.where('uid', "==", credential.user.uid)).doc(credential.user.uid).delete();
             this.afAuth.auth.currentUser.delete().then(() => this.router.navigate(['/register']));
           }
         });

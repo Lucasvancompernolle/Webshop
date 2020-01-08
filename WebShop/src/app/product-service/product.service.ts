@@ -51,6 +51,10 @@ export class ProductService {
     
     this._products.next(Object.assign({}, this.dataStore).products.filter(value => value.name.toLocaleLowerCase().includes(filterBy.toLocaleLowerCase())));
   }
+  filterProductsPrice(filterBy: string){
+    
+    this._products.next(Object.assign({}, this.dataStore).products.filter(value => value.price >= parseFloat(filterBy)));
+  }
 
   AddProduct(product: Product) {
     return this.httpService.post<Product>("https://localhost:5001/api/products", product,

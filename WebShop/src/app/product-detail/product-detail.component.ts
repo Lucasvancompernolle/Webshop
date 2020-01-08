@@ -47,7 +47,7 @@ export class ProductDetailComponent implements OnInit {
       picturePath: '',
       countryOfOrigin: '',
       productGroup: ['', Validators.required],
-      qtyOnStock: 0,
+      qtyOnHand: 0,
       SalesUnit: ['', Validators.required]
     });
 
@@ -83,7 +83,7 @@ export class ProductDetailComponent implements OnInit {
             picturePath: data.picturePath,
             countryOfOrigin: data.countryOfOrigin,
             productGroup: data.productGroup,
-            qtyOnStock: data.qtyOnHand,
+            qtyOnHand: data.qtyOnHand,
             SalesUnit: data.salesUnit
           });
         }

@@ -28,13 +28,20 @@
         </ng-container>
 
         <ng-container matColumnDef="pdf">
-            <th mat-header-cell *matHeaderCellDef>Pdf</th>
+            <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
                 <button mat-flat-button color="primary" (click)="orderService.GetPdfOrder(element.orderId)">PDF</button>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
+        <ng-container matColumnDef="closeOrder">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-flat-button color="warn" (click)="orderService.CloseOrder(element.orderId)">Close</button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
 
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -68,9 +75,15 @@
                             <td mat-cell *matCellDef="let line"> {{line.qtyOrdered}} </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="closeLine">
+                            <th mat-header-cell *matHeaderCellDef ></th>
+                            <td mat-cell *matCellDef="let element" >
+                                <button mat-flat-button color="warn" (click)="orderService.CloseOrder(element.orderId)">Close line</button>
+                            </td>
+                        </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
 
 
                     </table>
@@ -83,7 +96,7 @@
         <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" [ngClass]="{'make-gold': element.payed == false}" class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"
             (click)="expandedElement = expandedElement === element ? null : element"
-            (click)="getOrderLines(element.orderId)"></tr>
+            (click)="getOrderLines(element.invoiceId)"></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"  class="example-detail-row"></tr>
     </table>
 

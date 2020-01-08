@@ -26,16 +26,16 @@ namespace API.Controllers
 
        
         // GET: api/Customers/5
-        [HttpGet("{id}")]
+        [HttpGet("{uid}")]
         public ActionResult<Customer> GetCustomer(string uid)
         { 
             
             var customer =  _customerRepository.GetCustomer(uid);
 
-            if (customer == null)
-            {
-                return NotFound();
-            }
+            //if (customer == null)
+            //{
+            //    return NotFound();
+            //}
 
             return customer;
         }

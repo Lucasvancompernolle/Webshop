@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { CustomerService } from './customer.service';
 import { Observable } from 'rxjs';
 import { Customer } from './Customer';
+
 
 
 @Component({
@@ -22,12 +23,21 @@ export class CustomerComponent implements OnInit {
   columnsToDisplay = ['custId', 'name'];
   expandedElement: Customer | null;
  customers: Observable<Customer[]>;
-
+ 
   constructor( private custService: CustomerService) { }
 
   ngOnInit() {
     this.custService.getCustomers();
     this.customers = this.custService.customers;
+    
+  }
+
+  performFilter(filterBy: string) {
+   
+    this.custService.filterCustName(filterBy);
+    this.customers = this.custService.customers;
+    
+    
   }
 
 }

@@ -64,6 +64,18 @@
     background-color: green;
 }
 
+.bottomContainer ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.bottomContainer li{
+ float: left;
+ padding-left: 25px;
+ margin-bottom: 10px;
+}
 
 @media screen and (max-width: 394px) {
     button {

@@ -1,8 +1,11 @@
-<div class="container" >
+<div class="container">
 
     <mat-form-field>
-        <input matInput (keyup)="performFilter($event.target.value)" placeholder="Search">
-      </mat-form-field>
+        <input matInput (keyup)="performFilter($event.target.value)" placeholder="Search by name">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput (keyup)="filterProductsPrice($event.target.value)" (click)="filterProductsPrice($event.target.value)" placeholder="Starting price" value="0" type="number" >
+    </mat-form-field>
 
     <mat-grid-list cols="2" *ngFor="let item of this.products | async">
 
@@ -19,11 +22,18 @@
                 <h4>Description</h4>
                 <span>{{item.description | slice:0:200}}</span>
                 <p class="price">Price: {{item.price}}</p>
+
             </div>
             <div *ngIf="this.productService.auth.user | async;">
                 <p><button class="buyBtn" (click)="AddToBasket(item.id, qtyOrder.value)" for='qtyOrder'>Buy</button>
                 </p>
-                <p><input #qtyOrder type="number" value="1" name='qtyOrder' style="width: 50px;"></p>
+                <div class="bottomContainer">
+                    <ul>
+                        <li style="font-weight: bold;"> Available stock: {{item.qtyOnHand}}</li>
+                        <li>Order: <input #qtyOrder type="number" value="1" name='qtyOrder' style="width: 50px;"></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
 

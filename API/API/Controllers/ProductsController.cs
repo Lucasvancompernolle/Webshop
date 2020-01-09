@@ -24,12 +24,12 @@ namespace API.Controllers
     {
 
         private readonly IProductRepository _productRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
+       
 
-        public ProductsController(IProductRepository productRepository, IHostingEnvironment hostingEnvironment)
+        public ProductsController(IProductRepository productRepository)
         {
             _productRepository = productRepository;
-            this._hostingEnvironment = hostingEnvironment;
+           
         }
 
         // GET api/values

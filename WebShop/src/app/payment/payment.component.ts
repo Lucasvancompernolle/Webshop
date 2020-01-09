@@ -24,6 +24,7 @@ export class PaymentComponent implements OnInit {
   ConfirmOrder()
   {
     this.orderService.confirmOrder(this.custNo);
+    
   }
 
 }

@@ -57,7 +57,7 @@ namespace API.Services
                 form.SetField("Client Name", _customer.Name + " " + _customer.LastName);
                 form.SetField("Client Email Address", _customer.EmailAddress);
                 form.SetField("Client Address 1", _customer.Address.Street + " " + _customer.Address.StreetNumber);
-                form.SetField("Client Address 2", _customer.Address.PostalCode + " " + _customer.Address.City);
+                form.SetField("Client Address 2", _customer.Address.PostalCode + " " + _customer.Address.City + " " + _customer.Address.Country);
                 // Order data
                 form.SetField("Due Date", DateTime.Today.ToString("dd/MM/yyyy"));
                 form.SetField("Date", DateTime.Today.ToString("dd/MM/yyyy"));

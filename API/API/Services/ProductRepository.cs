@@ -44,7 +44,7 @@ namespace API.Services
 
         public void DeleteProduct(int id)
         {
-            var product = _context.Product.Where(p => p.Id == id).Single();
+            var product = _context.Product.Where(p => p.Id == id).FirstOrDefault();
             _context.Product.Remove(product);
             _context.SaveChanges();
 
@@ -52,7 +52,7 @@ namespace API.Services
 
         public Product GetProduct(int id)
         {
-            return _context.Product.Where(p => p.Id == id).Single();
+            return _context.Product.Where(p => p.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Product> GetProducts()

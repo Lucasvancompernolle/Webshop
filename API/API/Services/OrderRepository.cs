@@ -142,7 +142,7 @@ namespace API.Services
             line.Status = 99;
             _orderContext.OrderLine.Update(line);
 
-            if (_orderContext.OrderLine.Where(l => l.OrderId == ordId && l.Status == 1) != null)
+            if (_orderContext.OrderLine.Where(l => l.OrderId == ordId && l.Status == 1) == null)
             {
                 Order order = _orderContext.Order.Where(o => o.OrderId == ordId).FirstOrDefault();
                 order.Status = 99;

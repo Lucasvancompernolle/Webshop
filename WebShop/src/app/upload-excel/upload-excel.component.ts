@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { ProductService } from '../product-service/product.service';
 import { Product } from '../product-service/product';
 import * as XLSX from 'xlsx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-excel',
@@ -25,7 +26,7 @@ export class UploadExcelComponent implements OnInit {
   displayedColumns: string[] =
     ['id', 'name', 'brand', 'price', 'salesUnit', 'ratingScore', 'qtyOnHand', 'productGroup', 'sku', 'description', 'picturePath'];
 
-  constructor(private httpService: HttpClient, private ProductService: ProductService) { }
+  constructor(private httpService: HttpClient, private ProductService: ProductService, private router: Router) { }
 
   ngOnInit() {
     this.Upload = false;
@@ -43,8 +44,7 @@ export class UploadExcelComponent implements OnInit {
     var modifiedDate = event.target.files[0].lastModifiedDate;
 
     let workBook: XLSX.WorkBook = null;
-    let jsonData = null;
-
+    
     const reader = new FileReader();
     const file = event.target.files[0];
 
@@ -138,7 +138,7 @@ export class UploadExcelComponent implements OnInit {
     this.ProductService.UploadExcel(this.dataStore.products).subscribe(
       () => {
         alert("Products uploaded from excel!");
-        this.ngOnInit();
+        this.router.navigate(['/admin']);
       }
     )
   }

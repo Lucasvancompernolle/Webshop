@@ -93,6 +93,6 @@
     </form>
     <div *ngIf="this.productService.auth.user | async as user">
         <button *ngIf="user.admin == true;" class="deleteBtn" [disabled]="this.productId == 0"
-            (click)="this.productService.DeleteProduct(item.id)">Delete</button>
+            (click)="deleteProduct(this.productId)">Delete</button>
     </div>
 </div>

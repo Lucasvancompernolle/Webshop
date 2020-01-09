@@ -76,7 +76,7 @@ export class ProductService {
 
   DeleteProduct(id: number) {
     this.httpService.delete<Product>("https://localhost:5001/api/products/" + id).pipe(
-      tap(product => console.log("Updated product: " + JSON.stringify(product))),
+      tap(product => console.log("deleted product: " + JSON.stringify(product))),
       catchError(this.handleError)).subscribe(
         () => {
           this.dataStore.products = this.dataStore.products.filter(item => item.id != id);

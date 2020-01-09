@@ -137,7 +137,7 @@ namespace API.Controllers
                     message.To.Add(new MailAddress(customer.EmailAddress, customer.Name));
                     message.From = new MailAddress("lucasvc55@gmail.com", "Food Webshop");
                     message.Subject = "Thanks for your order!";
-                    message.Body = "Hello";
+                    message.Body = "<img src='https://morethankyounotes.com/wp-content/uploads/2017/02/Customer-Thank-You-Note-1.png'>";
                     message.IsBodyHtml = true;
 
                     string invoiceTemplate = ".\\Documents\\Invoices\\Template\\InvoiceTemplate.pdf";

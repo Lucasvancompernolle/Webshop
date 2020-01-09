@@ -41,7 +41,7 @@ export class ProductDetailComponent implements OnInit {
       brand: ['', Validators.required],
       name: ['', Validators.required],
       sku: ['', Validators.required],
-      price:[0, Validators.required, ],
+      price: [0, Validators.required],
       description: ['', Validators.required],
       ratingScore: 0,
       picturePath: '',
@@ -72,6 +72,13 @@ export class ProductDetailComponent implements OnInit {
 
       this.productService.getProductItemById(id).subscribe(
         data => {
+
+          if (data == null) {
+            alert("Product doesn't exist anymore!");
+            this.router.navigate(['/products']);
+            return;
+          }
+
           this.ProductItem = data as Product;
           this.ProductForm.setValue({
             brand: data.brand,
@@ -95,17 +102,16 @@ export class ProductDetailComponent implements OnInit {
 
   onSubmit(Product) {
     // Process update product
-    if(this.newProductMode == false)
-    {
-    this.productService.UpdateProduct(this.productId, Product).subscribe(
-      updatedProduct => {
-        this.ProductItem = updatedProduct;
-        console.warn('Your product has been updated!', Product);
-        alert('Your product has been updated');
-      }
-    );
+    if (this.newProductMode == false) {
+      this.productService.UpdateProduct(this.productId, Product).subscribe(
+        updatedProduct => {
+          this.ProductItem = updatedProduct;
+          console.warn('Your product has been updated!', Product);
+          alert('Your product has been updated');
+        }
+      );
     }
-    else{
+    else {
       this.productService.AddProduct(Product).subscribe(
         addedProduct => {
           this.ProductItem = addedProduct;
@@ -114,8 +120,16 @@ export class ProductDetailComponent implements OnInit {
         }
       );
     }
-    this.router.navigate(['/admin']);
-    
+
+
+  }
+
+  deleteProduct(prodId: number) {
+    this.productService.DeleteProduct(prodId);
+
+    alert("Product is deleted!");
+    this.router.navigate(['/products']);
+
   }
 
   AddToBasket() {

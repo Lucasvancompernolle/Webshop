@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { basketItem } from '../basket-service/basket';
 import { BasketService } from '../basket-service/basket.service';
 import { Router } from '@angular/router';
 import { Order, OrderLine } from './Order';
-import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ProductService } from '../product-service/product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +27,7 @@ export class OrderService {
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
         this.basketService.CloseBasketItems();
+        alert("Thanks for your order!");
 
       }, error => alert("Confirming order failed!"));
 

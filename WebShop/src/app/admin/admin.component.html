@@ -7,13 +7,13 @@
 
             </ul>
         </li>
-        <li><a [routerLink]="['/orders']">Open orders</a>
+        <li><a [routerLink]="['/orders', true]">Orders</a>
             <ul class="dropdown">
 
-                <app-order></app-order>
+                <app-order [init]="true"></app-order>
 
             </ul>
-        </li>
+       
         <li><a href="javascript:">Manage products</a>
             <ul class="dropdown">
                 <div>

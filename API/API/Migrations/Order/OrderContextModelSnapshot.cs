@@ -27,8 +27,6 @@ namespace API.Migrations.Order
 
                     b.Property<string>("CustId");
 
-                    b.Property<DateTime>("Delivered");
-
                     b.Property<string>("InvoiceId");
 
                     b.Property<DateTime>("OrderDate");
@@ -36,6 +34,8 @@ namespace API.Migrations.Order
                     b.Property<bool>("Payed");
 
                     b.Property<DateTime>("ShippingDate");
+
+                    b.Property<int>("Status");
 
                     b.Property<decimal>("TotalPrice");
 
@@ -65,6 +65,8 @@ namespace API.Migrations.Order
                     b.Property<int>("ProdId");
 
                     b.Property<decimal>("QtyOrdered");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 

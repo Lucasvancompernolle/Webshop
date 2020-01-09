@@ -31,27 +31,65 @@ namespace API.Controllers
             
         }
         // GET: api/<controller>
-        [HttpGet]
-        public ActionResult<IEnumerable<Order>> GetAllOrders()
+        [HttpGet("{status}")]
+        public ActionResult<IEnumerable<Order>> GetAllOrders(int status)
         {
-            IEnumerable<Order> orders = _orderRepository.GetOrders();
+            IEnumerable<Order> orders = _orderRepository.GetOrders(status);
             return Ok(orders);
         }
 
         // GET api/<controller>/5
-        [HttpGet("{invoiceId}")]
-        public ActionResult<IEnumerable<OrderLine>> GetOrderLines(string invoiceId)
+        [HttpGet("openlines/{ordId}")]
+        public ActionResult<IEnumerable<OrderLine>> GetOpenOrderLines(int ordId)
         {
-            var orderLines = _orderRepository.GetOrderLinesOrder(invoiceId);
+            var orderLines = _orderRepository.GetOpenOrderLinesOrder(ordId);
             return Ok(orderLines);
         }
+
+       
+        [HttpGet("closedlines/{ordId}")]
+        public ActionResult<IEnumerable<OrderLine>> GetClosedOrderLines(int ordId)
+        {
+            var orderLines = _orderRepository.GetClosedOrderLinesOrder(ordId);
+            return Ok(orderLines);
+        }
+
+        [HttpGet("close/{ordId}")]
+        public ActionResult<IEnumerable<OrderLine>> GetOrderClosed(int ordId)
+        {
+            var orderLines = _orderRepository.CloseOrder(ordId);
+            return Ok(orderLines);
+        }
+
+        [HttpGet("open/{ordId}")]
+        public ActionResult<IEnumerable<OrderLine>> GetOrderOpen(int ordId)
+        {
+            var orderLines = _orderRepository.OpenOrder(ordId);
+            return Ok(orderLines);
+        }
+
+        [HttpGet("{ordNo}/closeline/{lineNo}")]
+        public ActionResult<OrderLine> CloseOrderLine(int ordNo, int lineNo)
+        {
+            var orderLine = _orderRepository.CloseOrderLine(ordNo, lineNo);
+            return Ok(orderLine);
+        }
+
+        [HttpGet("{ordNo}/openline/{lineNo}")]
+        public ActionResult<OrderLine> OpenOrderLine(int ordNo, int lineNo)
+        {
+            var orderLine = _orderRepository.ReopenOrderLine(ordNo, lineNo);
+            return Ok(orderLine);
+        }
+
+
 
         [HttpGet("InvoiceOrder/{ordId}")]
         public ActionResult GetInvoiceOrder(int ordId)
         {
             var order = _orderRepository.GetOrder(ordId);
             var customer = _customerRepository.GetCustomer(order.CustId);
-            List<OrderLine> orderLines = new List<OrderLine>(_orderRepository.GetOrderLinesOrder(order.InvoiceId));
+            List<OrderLine> orderLines = new List<OrderLine>(_orderRepository.GetOrderLinesOrder(ordId));
 
             string invoiceTemplate = ".\\Documents\\Invoices\\Template\\InvoiceTemplate.pdf";
             PdfCreator pdf = new PdfCreator(invoiceTemplate, customer, order, orderLines);

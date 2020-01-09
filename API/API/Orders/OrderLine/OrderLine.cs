@@ -17,5 +17,7 @@ namespace API.Orders
         public decimal QtyOrdered { get; set; }
         public decimal Price { get; set; }
         public bool Canceled { get; set; }
+
+        public int Status { get; set; } // 1 = open, 99 = closed
     }
 }

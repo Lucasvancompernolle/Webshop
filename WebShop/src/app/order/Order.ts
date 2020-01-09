@@ -10,6 +10,7 @@ export class Order {
     totalPrice: number;
     shippingDate: Date;
     delivered: Date;
+    status: number;
 
 }
 
@@ -22,6 +23,7 @@ export class OrderLine {
     qtyOrdered: number;
     price: number;
     canceled: boolean;
+    status: number;
 
 }
 

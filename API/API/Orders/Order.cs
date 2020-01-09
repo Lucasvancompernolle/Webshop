@@ -15,7 +15,7 @@ namespace API.Orders
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime ShippingDate { get; set; }
-        public DateTime Delivered { get; set; }
+        public int Status { get; set; } // 1 = open, 99 = closed
 
 
 

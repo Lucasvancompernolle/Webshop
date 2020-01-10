@@ -48,9 +48,14 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .make-grey {
-  background-color: lightgray;
+  background-color: white;
 }
 
 .example-element-description-attribution {
   opacity: 0.5;
+}
+
+.green {
+  background-color: limegreen;
+  color: aliceblue;
 }

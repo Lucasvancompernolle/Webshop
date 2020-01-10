@@ -1,14 +1,14 @@
 <div style="margin-top: 80px;">
 
-    <a [routerLink]="['/orders', false]" *ngIf="this.openOrders == true"  ><button mat-flat-button color="warn" (click)="ngOnInit()" >Show closed orders</button></a>
-    <a *ngIf="this.openOrders == false" [routerLink]="['/orders', true]" ><button mat-flat-button color="primary" (click)="ngOnInit()"  >Show open orders</button></a>
+    <a *ngIf="this.openOrders == true"><button mat-flat-button color="warn" (click)="changeViewOrders(99)">Show closed orders</button></a>
+    <a *ngIf="this.openOrders == false"><button mat-flat-button class="green" (click)="changeViewOrders(1)" >Show open orders</button></a>
 
     
     <table mat-table [dataSource]="this.orders" multiTemplateDataRows class="mat-elevation-z8">
 
 
         <ng-container matColumnDef="orderId">
-            <th mat-header-cell *matHeaderCellDef>orderId</th>
+            <th mat-header-cell *matHeaderCellDef>OrderId</th>
             <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
@@ -20,14 +20,20 @@
         </ng-container>
 
         <ng-container matColumnDef="custId">
-            <th mat-header-cell *matHeaderCellDef> custId </th>
+            <th mat-header-cell *matHeaderCellDef> CustId </th>
             <td mat-cell *matCellDef="let element"> {{element.custId}} </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
-        <ng-container matColumnDef="payed">
-            <th mat-header-cell *matHeaderCellDef> Open </th>
-            <td mat-cell *matCellDef="let element"> {{element.status == 1}} </td>
+        <ng-container matColumnDef="custName">
+            <th mat-header-cell *matHeaderCellDef> Cust name </th>
+            <td mat-cell *matCellDef="let element"> {{element.custName}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="ordDate">
+            <th mat-header-cell *matHeaderCellDef> Order date</th>
+            <td mat-cell *matCellDef="let element"> {{element.orderDate | date}} </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
@@ -59,32 +65,36 @@
 
                     <table mat-table [dataSource]="this.orderLines" class="mat-elevation-z8">
 
-                        <!--- Note that these columns can be defined in any order.
-                                          The actual rendered columns are set as a property on the row definition" -->
-
-                        <!-- Position Column -->
                         <ng-container matColumnDef="lineNo">
                             <th mat-header-cell *matHeaderCellDef>line</th>
                             <td mat-cell *matCellDef="let line"> {{line.lineNo}} </td>
                         </ng-container>
 
-                        <!-- Name Column -->
+                        <ng-container matColumnDef="prodId">
+                            <th mat-header-cell *matHeaderCellDef>ItemID</th>
+                            <td mat-cell *matCellDef="let line"> {{line.prodId}} </td>
+                        </ng-container>
+                        
                         <ng-container matColumnDef="item">
                             <th mat-header-cell *matHeaderCellDef>item</th>
                             <td mat-cell *matCellDef="let line"> {{line.item}} </td>
                         </ng-container>
 
-                        <!-- Weight Column -->
                         <ng-container matColumnDef="qtyOrdered">
                             <th mat-header-cell *matHeaderCellDef>Qty</th>
                             <td mat-cell *matCellDef="let line"> {{line.qtyOrdered}} </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef>Price</th>
+                            <td mat-cell *matCellDef="let line"> {{line.price | currency:'EUR':true }} </td>
+                        </ng-container>
+
                         <ng-container matColumnDef="closeLine">
-                            <th mat-header-cell *matHeaderCellDef ></th>
-                            <td mat-cell *matCellDef="let element"  >
-                                <button mat-flat-button color="warn" *ngIf="element.status == 1" (click)="orderService.CloseLine(element.orderId, element.lineNo)">Close line</button>
-                                <button mat-flat-button color="primary"  *ngIf="element.status == 99" (click)="orderService.ReopenLine(element.orderId, element.lineNo)">Reopen line</button>
+                            <th  mat-header-cell *matHeaderCellDef ></th>
+                            <td  mat-cell *matCellDef="let element"  >
+                                <button mat-flat-button color="warn" style="float: right;" *ngIf="element.status == 1" (click)="orderService.CloseLine(element.orderId, element.lineNo)">Close line</button>
+                                <button mat-flat-button color="primary" style="float: right;"  *ngIf="element.status == 99" (click)="orderService.ReopenLine(element.orderId, element.lineNo)">Reopen line</button>
                             </td>
                             
                         </ng-container>

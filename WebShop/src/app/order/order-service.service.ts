@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Order, OrderLine } from './Order';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CustomerService } from '../customer/customer.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class OrderService {
   dataStoreLines: { orderLines: OrderLine[] } = { orderLines: [] };
   readonly orderLines = this._orderLines.asObservable();
 
-  constructor(private httpService: HttpClient, private basketService: BasketService, private router: Router) { }
+  constructor(private httpService: HttpClient, private basketService: BasketService, private router: Router, private custService: CustomerService) { }
 
   confirmOrder(customerId: string) {
     this.httpService.post("https://localhost:5001/api/Orders/" + customerId,
@@ -40,6 +41,18 @@ export class OrderService {
     this.httpService.get<Order[]>("https://localhost:5001/api/Orders/" + status,
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
+
+        data.forEach(o => {
+          this.custService.checkIfUserIsCustomer(o.custId).subscribe(
+            cust => {
+              if (cust == null)
+                o.custName = "Customer does not exist"
+              else
+                o.custName = cust.firstName + " " + cust.lastName
+            }
+          )
+        })
+
         this.ordersCount = data.length;
         this.dataStore.orders = data;
         this._orders.next(Object.assign({}, this.dataStore).orders);
@@ -52,7 +65,7 @@ export class OrderService {
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
 
-        this.dataStoreLines.orderLines = data.sort((n1,n2)=> n1.lineNo - n2.lineNo);
+        this.dataStoreLines.orderLines = data.sort((n1, n2) => n1.lineNo - n2.lineNo);
         this._orderLines.next(Object.assign({}, this.dataStoreLines).orderLines);
 
       }, error => alert("getting orders failed!"));
@@ -63,7 +76,7 @@ export class OrderService {
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
 
-        this.dataStoreLines.orderLines = data.sort((n1,n2)=> n1.lineNo - n2.lineNo);
+        this.dataStoreLines.orderLines = data.sort((n1, n2) => n1.lineNo - n2.lineNo);
         this._orderLines.next(Object.assign({}, this.dataStoreLines).orderLines);
 
       }, error => alert("getting orders failed!"));
@@ -74,45 +87,43 @@ export class OrderService {
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
 
-        this.dataStoreLines.orderLines = data.sort((n1,n2)=> n1.lineNo - n2.lineNo);
+        this.dataStoreLines.orderLines = data.sort((n1, n2) => n1.lineNo - n2.lineNo);
         this._orderLines.next(Object.assign({}, this.dataStoreLines).orderLines);
 
       }, error => alert("getting orders failed!"));
   }
 
   CloseLines(ordId: number) {
-    this.httpService.get<OrderLine[]>("https://localhost:5001/api/Orders/close/" + ordId,
+    this.httpService.put<OrderLine[]>("https://localhost:5001/api/Orders/close/" + ordId,
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
         this.dataStore.orders.find(o => o.orderId == ordId).status = 99;
         this.dataStore.orders = this.dataStore.orders.filter(o => o.status == 1);
         this._orders.next(Object.assign({}, this.dataStore).orders);
 
-       
+
 
       }, error => alert("update orders failed!"));
   }
 
   ReopenLines(ordId: number) {
-    this.httpService.get<OrderLine[]>("https://localhost:5001/api/Orders/open/" + ordId,
+    this.httpService.put<OrderLine[]>("https://localhost:5001/api/Orders/open/" + ordId,
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
-        
+
         this.dataStore.orders.find(o => o.orderId == ordId).status = 1;
         this.dataStore.orders = this.dataStore.orders.filter(o => o.status == 99);
         this._orders.next(Object.assign({}, this.dataStore).orders);
 
-      
+
 
       }, error => alert("update orders failed!"));
   }
 
 
-  CloseLine(ordId: number, lineNo: number) 
-  {
-    this.httpService.get<OrderLine>("https://localhost:5001/api/Orders/" + ordId + "/closeline/" + lineNo,
+  CloseLine(ordId: number, lineNo: number) {
+    this.httpService.put<OrderLine>("https://localhost:5001/api/Orders/" + ordId + "/closeline/" + lineNo,
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
-
 
         this.dataStoreLines.orderLines.find(line => line.lineNo == lineNo).status = data.status;
         this._orderLines.next(Object.assign({}, this.dataStoreLines).orderLines);
@@ -120,9 +131,8 @@ export class OrderService {
       }, error => alert("update orders failed!"));
   }
 
-  ReopenLine(ordId: number, lineNo: number) 
-  {
-    this.httpService.get<OrderLine>("https://localhost:5001/api/Orders/" + ordId + "/openline/" + lineNo,
+  ReopenLine(ordId: number, lineNo: number) {
+    this.httpService.put<OrderLine>("https://localhost:5001/api/Orders/" + ordId + "/openline/" + lineNo,
       { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
 
 

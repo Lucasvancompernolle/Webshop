@@ -8,13 +8,7 @@ using API.Products;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using System.Drawing;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using System.Text;
-using System.IO;
-using NPOI.SS.UserModel;
-using NPOI.HSSF.UserModel;
-using NPOI.XSSF.UserModel;
+
 
 namespace API.Controllers
 {

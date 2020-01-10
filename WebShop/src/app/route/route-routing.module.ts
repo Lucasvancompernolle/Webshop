@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: 'pageNotFound', component: PageNotFoundComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
-  {path: 'orders/:status', component: OrderComponent, canActivate: [AuthGuard]},
+  {path: 'orders', component: OrderComponent, canActivate: [AuthGuard]},
   {path: 'customers', component: CustomerComponent, canActivate: [AuthGuard]},
   {path: 'uploadExcel', component: UploadExcelComponent, canActivate: [AuthGuard]},
   {path: '**', component: HomeComponent}

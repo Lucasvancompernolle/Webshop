@@ -1,17 +1,12 @@
 ﻿using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
 using API.Basket;
 using API.Customers;
 using API.Orders;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Nancy.Json;
-using API.Products;
-
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -54,28 +49,28 @@ namespace API.Controllers
             return Ok(orderLines);
         }
 
-        [HttpGet("close/{ordId}")]
+        [HttpPut("close/{ordId}")]
         public ActionResult<IEnumerable<OrderLine>> GetOrderClosed(int ordId)
         {
             var orderLines = _orderRepository.CloseOrder(ordId);
             return Ok(orderLines);
         }
 
-        [HttpGet("open/{ordId}")]
+        [HttpPut("open/{ordId}")]
         public ActionResult<IEnumerable<OrderLine>> GetOrderOpen(int ordId)
         {
             var orderLines = _orderRepository.OpenOrder(ordId);
             return Ok(orderLines);
         }
 
-        [HttpGet("{ordNo}/closeline/{lineNo}")]
+        [HttpPut("{ordNo}/closeline/{lineNo}")]
         public ActionResult<OrderLine> CloseOrderLine(int ordNo, int lineNo)
         {
             var orderLine = _orderRepository.CloseOrderLine(ordNo, lineNo);
             return Ok(orderLine);
         }
 
-        [HttpGet("{ordNo}/openline/{lineNo}")]
+        [HttpPut("{ordNo}/openline/{lineNo}")]
         public ActionResult<OrderLine> OpenOrderLine(int ordNo, int lineNo)
         {
             var orderLine = _orderRepository.ReopenOrderLine(ordNo, lineNo);
@@ -161,18 +156,6 @@ namespace API.Controllers
             return Ok();
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
 }

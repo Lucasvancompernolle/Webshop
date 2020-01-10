@@ -31,13 +31,10 @@ namespace API.Controllers
         { 
             
             var customer =  _customerRepository.GetCustomer(uid);
+            var mappedCustomer = _mapper.Map<CustomerDto>(customer);
 
-            //if (customer == null)
-            //{
-            //    return NotFound();
-            //}
-
-            return customer;
+           
+            return Ok(mappedCustomer);
         }
 
         [HttpGet]

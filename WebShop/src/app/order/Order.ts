@@ -5,6 +5,7 @@ export class Order {
     orderId: number;
     invoiceId: string;
     custId: string;
+    custName: string;
     payed: boolean;
     orderDate: Date;
     totalPrice: number;

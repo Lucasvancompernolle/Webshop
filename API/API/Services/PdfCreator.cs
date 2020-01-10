@@ -3,14 +3,8 @@ using API.Orders;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Parsing;
-using System;
 using iTextSharp.text.pdf;
-using System.Collections;
-using iTextSharp.text;
+
 
 namespace API.Services
 {

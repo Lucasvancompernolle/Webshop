@@ -7,7 +7,6 @@
         <ul>
             <li> <button class="buyBtn" (click)="AddToBasket()">Buy</button></li>
             <li> <input  class="QtyFill" type="number" [(ngModel)]="this.ProductQty" min="0" max="99"></li>
-            <li> </li>
         </ul>
 
     </div>
@@ -16,6 +15,13 @@
     </div>
 
     <form [formGroup]="ProductForm" (ngSubmit)="onSubmit(ProductForm.value)">
+
+        <div class="example-container">
+            <mat-form-field>
+                <input [readonly]="this.IsReadOnly" matInput #input  formControlName="picturePath"
+                    placeholder="Picture path">
+            </mat-form-field>
+        </div>
         <div class="example-container">
             <mat-form-field>
                 <input [readonly]="this.IsReadOnly" matInput #input maxlength="50" formControlName="brand"
@@ -23,7 +29,6 @@
 
             </mat-form-field>
         </div>
-
         <div class="example-container">
             <mat-form-field>
                 <input [readonly]="this.IsReadOnly" matInput #input maxlength="50" formControlName="name"
@@ -67,12 +72,6 @@
             <mat-form-field>
                 <input [readonly]="this.IsReadOnly" matInput #input maxlength="20" formControlName="sku"
                     placeholder="Stock unit">
-            </mat-form-field>
-        </div>
-        <div class="example-container">
-            <mat-form-field>
-                <input [readonly]="this.IsReadOnly" matInput #input  formControlName="picturePath"
-                    placeholder="Picture path">
             </mat-form-field>
         </div>
         <div class="example-container">

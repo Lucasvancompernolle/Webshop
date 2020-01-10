@@ -141,17 +141,19 @@ namespace API.Services
             OrderLine line = _orderContext.OrderLine.Where(l => l.OrderId == ordId && l.LineNo == lineNo).FirstOrDefault();
             line.Status = 99;
             _orderContext.OrderLine.Update(line);
+            _orderContext.SaveChanges();
 
-            if (_orderContext.OrderLine.Where(l => l.OrderId == ordId && l.Status == 1) == null)
+            bool lastOrderLine = _orderContext.OrderLine.Where(l => l.OrderId == ordId && l.Status == 1).FirstOrDefault() == null;
+            if (lastOrderLine == true)
             {
                 Order order = _orderContext.Order.Where(o => o.OrderId == ordId).FirstOrDefault();
                 order.Status = 99;
                 _orderContext.Order.Update(order);
 
+                _orderContext.SaveChanges();
+
             }
 
-
-            _orderContext.SaveChanges();
             return line;
         }
 

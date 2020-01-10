@@ -19,15 +19,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class OrderComponent implements OnInit {
 
-  @Input('init')
-  openOrders: boolean;
-
+  openOrders: boolean = true;
   orders: Observable<Order[]>;
-
   orderLines: Observable<OrderLine[]>
   expandedElement: OrderLine | null;
-  columnsToDisplay = ['orderId', 'invoiceId', 'custId', 'payed', 'pdf', 'closeOrder'];
-  displayedColumns: string[] = ['lineNo', 'item', 'qtyOrdered', 'closeLine'];
+  columnsToDisplay = ['orderId', 'invoiceId', 'custId', 'custName', 'ordDate', 'pdf', 'closeOrder'];
+  displayedColumns: string[] = ['lineNo', 'prodId', 'item', 'qtyOrdered', 'price', 'closeLine'];
 
 
   constructor(private orderService: OrderService, private route: ActivatedRoute, private router :Router) {
@@ -36,13 +33,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
 
-    this.openOrders = this.route.snapshot.paramMap.get('status') == "true";
-
-    if (this.openOrders == true || this.openOrders == undefined )
       this.orderService.getAllOrders(1);
-
-    else
-      this.orderService.getAllOrders(99);
     this.orders = this.orderService.orders;
   }
 
@@ -55,8 +46,6 @@ export class OrderComponent implements OnInit {
 
     this.orderLines = this.orderService.orderLines;
   }
-
-
 
   CloseLines(orderId: number) {
     this.orderService.CloseLines(orderId);
@@ -71,7 +60,11 @@ export class OrderComponent implements OnInit {
     this.orders = this.orderService.orders;
   }
 
-  
+  changeViewOrders(status : number)
+{
+  this.orderService.getAllOrders(status);
+  this.openOrders = !this.openOrders 
+}  
 
 
 

@@ -115,6 +115,7 @@ export class ProductDetailComponent implements OnInit {
       this.productService.AddProduct(Product).subscribe(
         addedProduct => {
           this.ProductItem = addedProduct;
+          this.productId = addedProduct.id;
           console.warn('Your product has been added!', Product);
           alert('Your product has been added');
         }

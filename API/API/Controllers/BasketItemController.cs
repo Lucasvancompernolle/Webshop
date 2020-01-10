@@ -42,30 +42,6 @@ namespace API.Controllers
             return Ok(basketItems);
         }
 
-       
-        //[HttpPost]
-        //public IActionResult AddBasketItems([FromBody] IEnumerable<BasketItem> basketItems)
-        //{
-
-        //    if (basketItems == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    foreach (var item in basketItems)
-        //    {
-        //        _basketItemRepository.AddBasketItem(item);
-        //    }
-
-        //    if (!_basketItemRepository.Save())
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    return Ok(basketItems);
-
-        //}
-
         [HttpPost]
         public IActionResult AddBasketItem([FromBody] BasketItem basketItem)
         {
@@ -88,7 +64,7 @@ namespace API.Controllers
         }
 
 
-        // PUT: api/BasketItem/5
+        // PUT: api/BasketItem
         [HttpPut]
         public ActionResult UpdateMultipleBasketItems([FromBody] IEnumerable<BasketItem> basketItems)
         {
@@ -100,11 +76,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            //BasketItem item =_basketItemRepository.GetBasketItem(id);
-            //Product product = _productRepository.GetProduct(item.ProdId);
-            //product.QtyOnHand += item.Qty;
-            //_productRepository.UpdateProduct(product);
-
+          
             _basketItemRepository.DeleteBasketItem(id);
             _basketItemRepository.Save();
 

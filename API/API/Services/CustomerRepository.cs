@@ -60,19 +60,10 @@ namespace API.Services
 
         public Customer GetCustomer(string custId)
         {
-            Customer customer;
-            try
-            {
-                customer = _customerContext.Customer.First(p => p.LoginId == custId);
-                customer.Address = _customerContext.Address.First(a => a.Id == customer.Id);
 
-                return customer;
-            }
-            catch
-            {
-                return null;
-            }
+            Customer customer = _customerContext.Customer.Include(c => c.Address).Where(p => p.LoginId == custId).FirstOrDefault();
 
+            return customer;
 
         }
 
